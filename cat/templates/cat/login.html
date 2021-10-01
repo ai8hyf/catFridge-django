@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Cat Fridge</title>
+    <link rel="stylesheet" href="{% static 'cat/fontawesome-free-5.15.4-web/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/login.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Please Login :)</h1>
+        <h2><a href="{% url 'register' %}">Or Register?</a></h2>
+
+        <p class="error-message">{{ errormessage }}</p>
+
+        <form action="{% url 'validate' %}" method="POST">
+
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label for="login-email"><i class="fas fa-at"></i> E-mail / Username</label>
+                <input id="login-email" type="text" name="username" required>
+            </div>
+    
+            <div class="input-group">
+                <label for="login-password"><i class="fas fa-key"></i> Password</label>
+                <input id="login-password" type="password" name="password" required>
+            </div>
+    
+            <div class="center-inner">
+                <button class="round-button" type="submit"><i class="fas fa-2x fa-arrow-right"></i></button>
+            </div>
+        </form>
+
+        
+    </div>
+
+    <script src="{% static 'cat/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'cat/js/login.js' %}"></script>
+</body>
+
+</html>

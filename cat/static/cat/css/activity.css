@@ -1,0 +1,106 @@
+html, body, div, h1, h2, h3, h4, ul, ol, li, a, p, span{
+    padding: 0;
+    margin: 0;
+}
+
+/* this is the scroll-bar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+/* this is the main container */
+.container{
+    height: calc(100vh - 100px);
+    width: 100%;
+    margin: 0 auto;
+}
+
+h1{
+    box-sizing: border-box;
+    font-family: Andale Mono, monospace;
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 300%;
+    padding: 30px 0;
+}
+
+.filter{
+    text-align: center;
+}
+
+.filter>button{
+    display: inline-block;
+    background-color: white;
+    color: black;
+    border: none;
+    margin: 0 20px;
+    margin-bottom: 10px;
+    padding: 0 5px 10px 5px;
+    font-size: 15px;
+    font-family: Andale Mono, monospace;
+}
+
+.filter>button.selected, .filter>button:hover{
+    border-bottom: 3px solid black;
+    font-weight: bold;
+}
+
+.history-list{
+    width: 40%;
+    margin: 0 auto;
+    max-height: calc(100vh - 256px);
+    overflow-y: auto;
+}
+
+.history-list>table{
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-family: Andale Mono, monospace;
+}
+
+.history-list>table th, .history-list>table td{
+    padding: 10px 5px;
+    margin: 0;
+    /* border-bottom: 1px solid grey; */
+}
+
+.history-list>table tr{
+    border-bottom: 1px solid black;
+}
+.history-list>table tr:nth-child(even){
+    background-color: rgb(242, 242, 242);
+}
+
+@media screen and (max-width: 1200px){
+    .history-list{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 992px){
+    .history-list{
+        width: 80%;
+    }
+    
+}
+
+@media screen and (max-width: 576px){
+    .history-list{
+        width: 100%;
+    }
+}

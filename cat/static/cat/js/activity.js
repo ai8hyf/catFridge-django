@@ -1,0 +1,1 @@
+$("#menu-activity").addClass("active")

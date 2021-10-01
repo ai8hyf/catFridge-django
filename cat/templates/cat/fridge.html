@@ -1,0 +1,249 @@
+{% extends 'cat/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>My Fridge</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'cat/css/fridge.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/modal.css' %}">
+{% endblock css %}
+
+{% block container %}
+    <div class="container">
+        <h1 class="page-title">My <i class="fas fa-cat"></i> Fridge (<span id="cat-count"></span>)</h1>
+
+        <div class="cat-list">
+
+        </div>
+    </div>
+{% endblock container %}
+
+{% block modal %}
+    <div class="modal" id="borrow-manage-modal">
+
+        <div class="modal-body">
+            <div class="modal-header">
+                Who can borrow LUCY? <span class="close-modal-button" data-close="#borrow-manage-modal"><i class="fas fa-times"></i></span>
+            </div>
+
+            <div class="modal-content">
+                <div class="modal-input-group">
+                    <input type="email" placeholder="borrower's email">
+                    <button class="btn-submit">ADD <i class="fas fa-user-plus"></i></button>
+                </div>
+
+                <div class="existing-borrower">
+                    <div class="one-borrower">
+                        <i class="fas fa-paw"></i> ai8hyf@gmail.com
+                        <span><i class="fas fa-user-times"></i></span>
+                    </div>
+
+                    <div class="one-borrower">
+                        hu381@purdue.edu
+                        <span><i class="fas fa-user-times"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-controls">
+                <button class="btn btn-cancel">CANCEL</button>
+                <button class="btn btn-submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="cat-stats-modal">
+
+        <div class="modal-body">
+            <div class="modal-header">
+                About LUCY <span class="close-modal-button" data-close="#cat-stats-modal"><i class="fas fa-times"></i></span>
+            </div>
+
+            <div class="modal-content">
+                <ul class="cat-stats-list">
+                    <li><span>ID</span>FAEE6R</li>
+                    <li><span>NAME</span><input type="text" class="cat-stats-edit" value="LUCY"></li>
+                    <li><span>MOTTO</span><input type="text" class="cat-stats-edit" value="This cat hates dogs."></li>
+                    <li><span>OWNER</span>ai8hyf@gmail.com</li>
+                    <li><span>BREAD</span>DOG-HATER</li>
+                    <li><span>AGE</span>18 HOURS</li>
+                    <li><span>WEIGHT</span>22 POUND</li>
+                    <li><span>WISDOM</span>15 / 100</li>
+                </ul>
+            </div>
+
+            <div class="modal-controls">
+                <button class="btn btn-cancel">CANCEL</button>
+                <button class="btn btn-submit">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="adopt-modal">
+
+        <div class="modal-body modal-body-lg">
+            <div class="modal-header">
+                Adopt <i class="fas fa-cat"></i> <span class="close-modal-button" data-close="#adopt-modal"><i class="fas fa-times"></i></span>
+            </div>
+
+            <div class="modal-content">
+                <div class="cat-preview">
+                    <div class="cat-all">
+                        <div class="cat-head" id="preview-head">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="cat-neck" id="preview-neck"></div>
+                        <div class="cat-body" id="preview-body">
+                            
+                        </div>
+                        <div class="cat-tail" id="preview-tail"></div>
+                    </div>
+                </div>
+
+                <div class="cat-param">
+
+                    <h2><i class="fas fa-sliders-h"></i> ConfiGurator</h2>
+
+                    <div class="param-input">
+                        <label for="">Cat Name</label>
+                        <input type="text" placeholder="Tom" id="cat-name">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Cat Motto</label>
+                        <input type="text" placeholder="Tom loves Jerry." id="cat-motto">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Head Size</label>
+                        <input type="range" min="30" max="300" value="100" id="head-size" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Face Color</label>
+                        <input type="color" value="#ffffff" id="face-color" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Head Glow</label>
+                        <input type="color" value="#e8ff73" id="head-glow-color" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Head Align</label>
+                        <select id="head-align" onchange="generateCat()">
+                            <option value="left">Left</option>
+                            <option value="center" selected="selected">Center</option>
+                            <option value="right">Right</option>
+                        </select>
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Neck Length</label>
+                        <input type="range" min="10" max="200" value="10" id="neck-length"onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Neck Width</label>
+                        <input type="range" min="0" max="50" value="10" id="neck-width"onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body Height</label>
+                        <input type="range" min="40" max="300" value="200" id="body-height"onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body Wdith</label>
+                        <input type="range" min="20" max="300" value="150" id="body-width" onchange="generateCat()">
+                    </div>
+                    
+                    <div class="param-input">
+                        <label for="">Body Color</label>
+                        <input type="color" value="#ff0000" id="body-color" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body TL Arc</label>
+                        <select id="body-TL-radius" onchange="generateCat()">
+                            <option value="0">0%</option>
+                            <option value="10%">10%</option>
+                            <option value="25%">25%</option>
+                            <option value="50%" selected="selected">50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body TR Arc</label>
+                        <select id="body-TR-radius" onchange="generateCat()">
+                            <option value="0">0%</option>
+                            <option value="10%">10%</option>
+                            <option value="25%">25%</option>
+                            <option value="50%" selected="selected">50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body BL Arc</label>
+                        <select id="body-BL-radius" onchange="generateCat()">
+                            <option value="0">0%</option>
+                            <option value="10%">10%</option>
+                            <option value="25%" selected="selected">25%</option>
+                            <option value="50%">50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body BR Arc</label>
+                        <select id="body-BR-radius" onchange="generateCat()">
+                            <option value="0">0%</option>
+                            <option value="10%">10%</option>
+                            <option value="25%" selected="selected">25%</option>
+                            <option value="50%">50%</option>
+                            <option value="75%">75%</option>
+                            <option value="100%">100%</option>
+                        </select>
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Body Tatoo</label>
+                        <input type="text" maxlength="7" id="body-tatoo" onchange="generateCat()" value="Supreme">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Tatoo Color</label>
+                        <input type="color" value="#ffffff" id="tatoo-color" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Tail Length</label>
+                        <input type="range" min="0" max="200" value="150" id="tail-length" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="">Tail Color</label>
+                        <input type="color" value="#000000" id="tail-color" onchange="generateCat()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-controls">
+                <button class="btn btn-cancel">RESET</button>
+                <button class="btn btn-submit" onclick="adoptCat()">ADOPT</button>
+            </div>
+        </div>
+    </div>
+{% endblock modal %}
+
+{% block js %}
+<script src="{% static 'cat/js/fridge.js' %}"></script>
+{% endblock js %}

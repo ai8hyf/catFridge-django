@@ -1,0 +1,12 @@
+{% block navbar %}
+<nav>
+    <ul>
+        <li id="menu-expand"><i class="fas fa-bars"></i></li>
+        <li id="menu-home"><a href="{% url 'index' %}">Home</a></li>
+        <li id="menu-fridge"><a href="{% url 'fridge' %}">My Fridge</a></li>
+        <li id="menu-borrow"><a href="{% url 'borrow' %}">Borrow</a></li>
+        <li id="menu-activity"><a href="{% url 'activity' %}">Activity</a></li>
+        <li class="right-aligned"><a href="{% url 'login' %}">Logout</a></li>
+    </ul>
+</nav>
+{% endblock %}

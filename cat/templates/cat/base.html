@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block title %}
+    {% endblock title %}
+
+    <link rel="stylesheet" href="{% static 'cat/fontawesome-free-5.15.4-web/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/footer.css' %}">
+
+    {% block css %}
+    {% endblock css %}
+
+
+</head>
+<body>
+    <nav>
+        <ul>
+            <li id="menu-expand"><i class="fas fa-bars"></i></li>
+            <li id="menu-home"><a href="{% url 'index' %}">Home</a></li>
+            <li id="menu-fridge"><a href="{% url 'fridge' %}">My Fridge</a></li>
+            <li id="menu-borrow"><a href="{% url 'borrow' %}">Borrow</a></li>
+            <li id="menu-activity"><a href="{% url 'activity' %}">Activity</a></li>
+            <li class="right-aligned"><a href="{% url 'login' %}">{{username}} <i class="fas fa-sign-out-alt"></i></a></li>
+        </ul>
+    </nav>
+
+    {% block container %}
+    {% endblock container %}
+
+    <footer>
+        Copyright: Copy ain't right!
+        <span><a href="https://paypal.me/YifeiHu?locale.x=en_US">Donate $$$</a></span>
+    </footer>
+
+    {% block modal %}
+    {% endblock modal %}
+    
+    <script src="{% static 'cat/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'cat/js/navbar.js' %}"></script>
+
+    {% block js %}
+    {% endblock js %}
+</body>
+
+</html>

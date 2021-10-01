@@ -1,0 +1,121 @@
+html, body, div, h1, h2, h3, h4, ul, ol, li, a, p, span, input{
+    padding: 0;
+    margin: 0;
+    font-family: Andale Mono, monospace;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    overflow-y: hidden;
+    background-image: url("../img/cat-paw.jpg"); /* copyfight free image */
+}
+
+/* this is the main container */
+.container{
+    width: 33%;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, .8);
+    -moz-box-shadow: 0 0 40px 40px rgba(255, 255, 255, .8);
+    -webkit-box-shadow: 0 0 40px 40px rgba(255, 255, 255, .8);
+    box-shadow: 0 0 300px 300px rgba(255, 255, 255, .8);
+}
+
+h1, h2{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 300%;
+}
+
+h2{
+    font-size: 150%;
+    padding-top: 10px;
+    margin-bottom: 30px;
+}
+
+h2>a{
+    text-decoration: none;
+    color: grey;
+}
+
+h2>a:hover{
+    display: inline-block;
+    color: black;
+    transform: scale(1.1, 1.1);
+}
+
+.error-message{
+    text-align: center;
+    color: red;
+    padding-bottom: 20px;
+}
+
+.input-group{
+    width: 100%;
+    padding: 5px 20px;
+}
+
+.input-group>label{
+    display: block;
+    font-size: 200%;
+    margin-bottom: 20px;
+}
+
+.input-group>input{
+    border: 3px solid black;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-family: inherit;
+    padding: 10px;
+    outline: none;
+}
+
+.input-group>input:focus{
+    border-color: green;
+    outline: none;
+}
+
+.center-inner{
+    padding: 5px 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.round-button{
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    border: 3px solid black;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    transition: width .3s, border-radius .3s, color .3s, backgroud-color .3s;
+}
+
+.round-button:hover{
+    color: white;
+    background-color: black;
+    width: 100%;
+    border-radius: 0;
+    transition: width .3s, border-radius .3s, color .3s, backgroud-color .3s;
+}
+
+@media screen and (max-width: 1200px){
+    .container{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 992px){
+    .container{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .container{
+        width: 100%;
+    }
+}
