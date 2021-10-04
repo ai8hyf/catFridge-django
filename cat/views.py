@@ -58,4 +58,6 @@ def validate(request):
         return render(request, 'cat/login.html', {})
 
 def check_session(r):
-    return r.session['username'] != ''
+    if 'username' in r.session and r.session['username'] != '':
+        return True
+    return False

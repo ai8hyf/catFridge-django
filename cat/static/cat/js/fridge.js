@@ -72,11 +72,6 @@ let catFromDB = [
 
 $("#menu-fridge").addClass("active")
 
-$(".close-modal-button").click(function(){
-    let modal_id = $(this).attr("data-close")
-    $(modal_id).fadeOut()
-})
-
 function showBorrowManageModal(modalID){
     // this function should contain more stuff when backend is ready
     $(modalID).fadeIn()

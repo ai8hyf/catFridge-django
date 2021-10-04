@@ -12,3 +12,10 @@ $("#menu-expand").click(function(){
         expandMenu = 0
     }
 })
+
+
+// below is related to the user banner and pop-up modal
+$("#user-banner").click(function(e){
+    e.preventDefault()
+    $("#user-info-modal").fadeIn()
+})

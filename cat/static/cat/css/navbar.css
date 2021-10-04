@@ -39,7 +39,6 @@ nav>ul>li:hover{
 
 nav>ul>li.right-aligned:hover{
     transform: none;
-    color: red;
     transition: all .3s;
 }
 
