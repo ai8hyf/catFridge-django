@@ -1,43 +1,64 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.contrib import auth
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
+@login_required(login_url='/cat/login')
 def index(request):
-    if(check_session(request)):
-        context = {'username': request.session['username']}
-        return render(request, 'cat/index.html', context)
-    else:
-        return redirect("/cat/login/")
+    context = {'username': request.user.username}
+    return render(request, 'cat/index.html', context)
 
+@login_required(login_url='/cat/login')
 def fridge(request):
-    if(check_session(request)):
-        context = {'username': request.session['username']}
-        return render(request, 'cat/fridge.html', context)
-    else:
-        return redirect("/cat/login/")
+    context = {'username': request.user.username}
+    return render(request, 'cat/fridge.html', context)
 
+@login_required(login_url='/cat/login')
 def borrow(request):
-    if(check_session(request)):
-        context = {'username': request.session['username']}
-        return render(request, 'cat/borrow.html', context)
-    else:
-        return redirect("/cat/login/")
+    context = {'username': request.user.username}
+    return render(request, 'cat/borrow.html', context)
 
+@login_required(login_url='/cat/login')
 def activity(request):
-    if(check_session(request)):
-        context = {'username': request.session['username']}
-        return render(request, 'cat/activity.html', context)
-    else:
-        return redirect("/cat/login/")
+    context = {'username': request.user.username}
+    return render(request, 'cat/activity.html', context)
+
 
 def login(request):
-    request.session['username'] = ''
-    context = {'username': ''}
-    return render(request, 'cat/login.html', context)
+    # User tries to sign in
+    if request.method == 'POST':
+        user = authenticate(request, username = request.POST.get("username"), password = request.POST.get("password"))
+        if user is not None:
+            auth.login(request, user)
+            return redirect("/cat")
+        else:
+            return render(request, 'cat/login.html', {'errormessage': 'Invalid username and/or password.'})
+
+    # GET request for logout
+    auth.logout(request)
+    return render(request, 'cat/login.html', {})
+
 
 def register(request):
-    request.session['username'] = ''
-    context = {'username': ''}
-    return render(request, 'cat/register.html', context)
+    # user submitted their registering info
+    if request.method == 'POST':
+
+        user = User.objects.create_user(request.POST.get("register-username"), request.POST.get("register-email"), request.POST.get("register-password"))
+        
+        if user is not None:
+            auth.login(request, user)
+            return redirect("/cat")
+        else:
+            return render(request, 'cat/login.html', {'errormessage': 'Invalid username and/or password.'})
+
+    # GET request for accessing the view
+    auth.logout(request)
+    return render(request, 'cat/register.html', {})
+
+
+    return render(request, 'cat/register.html', {})
 
 def validate(request):
     request.session['username'] = ''

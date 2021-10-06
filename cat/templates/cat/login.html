@@ -18,7 +18,7 @@
 
         <p class="error-message">{{ errormessage }}</p>
 
-        <form action="{% url 'validate' %}" method="POST">
+        <form method="POST">
 
             {% csrf_token %}
 
