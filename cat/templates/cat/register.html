@@ -16,6 +16,8 @@
         <h1>Welcome, New Friend!</h1>
         <h2><a href="{% url 'login' %}">Already Registered?</a></h2>
 
+        <p class="error-message">{{ errormessage }}</p>
+
         <form method="POST">
 
             {% csrf_token %}
@@ -35,7 +37,7 @@
             </div>
     
             <div class="center-inner">
-                <input class="round-button" type="submit"><i class="fas fa-2x fa-arrow-right"></i></input>
+                <button class="round-button" type="submit"><i class="fas fa-2x fa-arrow-right"></i></button>
             </div>
 
         </form>
