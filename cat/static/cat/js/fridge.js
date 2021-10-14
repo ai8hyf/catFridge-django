@@ -1,74 +1,27 @@
-// this variable should be fetched from a remote DB
-let catFromDB = [
-    {
-        catName: "Arthur",
-        catMotto: "I love Jerry",
-        catID: "TEST01",
-        headSize: 100,
-        neckLength: 10,
-        neckWidth: 20,
-        bodyHeight: 200,
-        bodyWidth: 150,
-        tailLength: 150,
-        faceColor: "#ffffff",
-        bodyColor: "#ff0000",
-        tailColor: "#000000",
-        headGlowColor: "#e8ff73",
-        bodyTLRadius: "50%",
-        bodyTRRadius: "50%",
-        bodyBLRadius: "25%",
-        bodyBRRadius: "25%",
-        bodyTatoo: "Supreme",
-        tatooColor: "#ffffff",
-        headAlign: "center"
-    },
-    {
-        catName: "Brandon",
-        catMotto: "I'm not a bear.",
-        catID: "TEST02",
-        headSize: 40,
-        neckLength: 100,
-        neckWidth: 0,
-        bodyHeight: 200,
-        bodyWidth: 100,
-        tailLength: 100,
-        faceColor: "#000000",
-        bodyColor: "#000000",
-        tailColor: "#000000",
-        headGlowColor: "#000000",
-        bodyTLRadius: "10%",
-        bodyTRRadius: "10%",
-        bodyBLRadius: "25%",
-        bodyBRRadius: "25%",
-        bodyTatoo: "OffWhite",
-        tatooColor: "#000000",
-        headAlign: "left"
-    },
-    {
-        catName: "Charlie", catMotto: "I love Jerry", catID: "TEST03", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 100, tailLength: 150, faceColor: "#00ff00", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "LUCK", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Dawn", catMotto: "I love Jerry", catID: "TEST04", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#ee00ee", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "YYY", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Eric", catMotto: "I love Jerry", catID: "TEST05", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#0000ff", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Yooo", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Frank", catMotto: "I love Jerry", catID: "TEST06", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#11ee55", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Hello", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Gaga", catMotto: "I love Jerry", catID: "TEST07", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#0f0f0f", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Bingo", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Harry", catMotto: "I love Jerry", catID: "TEST08", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#669900", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Dog", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Isaac", catMotto: "I love Jerry", catID: "TEST09", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#222222", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Ghost", tatooColor: "#2176fb", headAlign: "center"
-    },
-    {
-        catName: "Jack", catMotto: "I love Jerry", catID: "TEST10", headSize: 200, neckLength: 100, neckWidth: 1, bodyHeight: 50, bodyWidth: 200, tailLength: 150, faceColor: "#22ff00", bodyColor: "#fdc131", tailColor: "#000000", headGlowColor: "#ffffff", bodyTLRadius: "25%", bodyTRRadius: "25%", bodyBLRadius: "25%", bodyBRRadius: "25%", bodyTatoo: "Cool", tatooColor: "#2176fb", headAlign: "center"
-    }
-]
+let catFromDB = []
+
+function getCatsFromDB(){
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: ".",
+        method: "POST",
+        data: {"OFFSET": 0, "LIMIT": 0}, // for sql
+        success: function(result){
+ 
+            catFromDB = []
+
+            for(let i=0; i<result.length;i++ ) {
+                catFromDB.push(result[i])
+            }
+
+            renderLists(catFromDB)
+        }
+    })
+}
+
+getCatsFromDB()
 
 $("#menu-fridge").addClass("active")
 
@@ -110,7 +63,6 @@ function generateCat(){
     let catJSON = {
         catName: $("#cat-name").val(),
         catMotto: $("#cat-motto").val(),
-        catID: "000000", // for new cats only. The server will return the real catID
         headSize: $("#head-size").val(),
         neckLength: $("#neck-length").val(),
         neckWidth: $("#neck-width").val(),
@@ -139,7 +91,6 @@ function jsonToCat(containerSelector, catJSON){
 
     // // default cat config
     // let catJSON = {
-    //     catID: "SFAFE1",
     //     headSize: 100,
     //     neckLength: 10,
     //     neckWidth: 20,
@@ -225,10 +176,6 @@ function adoptCat(){
     let catJSON = {
         catName: $("#cat-name").val(),
         catMotto: $("#cat-motto").val(),
-
-        //for project 2 only:
-        catID: catFromDB.length.toString()+"TEMP",
-
         headSize: $("#head-size").val(),
         neckLength: $("#neck-length").val(),
         neckWidth: $("#neck-width").val(),
@@ -253,11 +200,25 @@ function adoptCat(){
         return 0
     }
 
-    catFromDB.push(catJSON)
-    renderLists(catFromDB)
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        method: "POST",
+        url: "./add",
+        data: catJSON,
+        success: function(res){
+            // alert(res)
+            getCatsFromDB()
+            $("#adopt-modal").fadeOut()
+        }
+    })
 
-    //maybe reset the params before close the window. I am just lazy :(
-    $("#adopt-modal").fadeOut()
+    // catFromDB.push(catJSON)
+    // renderLists(catFromDB)
+
+    // //maybe reset the params before close the window. I am just lazy :(
+    // $("#adopt-modal").fadeOut()
 }
 
 function renderLists(catListJSON){
@@ -274,27 +235,26 @@ function renderLists(catListJSON){
     for(let i=0; i<catListJSON.length;i++){
 
         // create the container with catID
-        $(".cat-list").append('<div class="one-box" id="'+ catListJSON[i].catID +'"></div>')
+        $(".cat-list").append('<div class="one-box" id="'+ catListJSON[i].id +'"></div>')
 
         // add the hover buttons
         // the parameters need to be dynamic in the future
-        $("#"+catListJSON[i].catID).append('<div class="box-controls"><button><i class="fas fa-temperature-high"></i> Defrost</button><button onclick=\'showBorrowManageModal("#borrow-manage-modal")\'><i class="fas fa-share-square"></i> Share</button><button onclick=\'showBorrowManageModal("#cat-stats-modal")\'><i class="fas fa-info-circle"></i> Stats</button></div>')
+        $("#"+catListJSON[i].id).append('<div class="box-controls"><button><i class="fas fa-temperature-high"></i> Defrost</button><button onclick=\'showBorrowManageModal("#borrow-manage-modal")\'><i class="fas fa-share-square"></i> Share</button><button onclick=\'showBorrowManageModal("#cat-stats-modal")\'><i class="fas fa-info-circle"></i> Stats</button></div>')
 
         // cat name bar
-        $("#"+catListJSON[i].catID).append('<div class="cat-name">'+catListJSON[i].catName+'</div>')
+        $("#"+catListJSON[i].id).append('<div class="cat-name">'+catListJSON[i].catName+'</div>')
 
         // cat skeleton
         // this will be the container for rendering cat
-        $("#"+catListJSON[i].catID).append('<div class="cat-graph"><div class="cat-all"><div class="cat-head"><i class="fas fa-smile"></i></div><div class="cat-neck"></div><div class="cat-body"></div><div class="cat-tail"></div></div></div>')
+        $("#"+catListJSON[i].id).append('<div class="cat-graph"><div class="cat-all"><div class="cat-head"><i class="fas fa-smile"></i></div><div class="cat-neck"></div><div class="cat-body"></div><div class="cat-tail"></div></div></div>')
 
         // some stats
         // also need to be dynamic
-        $("#"+catListJSON[i].catID).append('<div class="cat-info"><span><i class="fas fa-lightbulb"></i> 15 %</span><span><i class="fas fa-weight"></i> 22 PT</span><span><i class="fas fa-clock"></i> 18 HR</span></div>')
+        $("#"+catListJSON[i].id).append('<div class="cat-info"><span><i class="fas fa-lightbulb"></i> 15 %</span><span><i class="fas fa-weight"></i> 22 PT</span><span><i class="fas fa-clock"></i> 18 HR</span></div>')
 
         // render cat with magic
-        jsonToCat("#"+catListJSON[i].catID+">.cat-graph", catListJSON[i])
+        jsonToCat("#"+catListJSON[i].id+">.cat-graph", catListJSON[i])
     }
-
 
     // add event listener
     $(".one-box").mouseover(function(){
@@ -306,4 +266,3 @@ function renderLists(catListJSON){
     }) 
 }
 
-renderLists(catFromDB)

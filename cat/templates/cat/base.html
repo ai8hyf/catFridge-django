@@ -63,8 +63,12 @@
 
     {% block modal %}
     {% endblock modal %}
-    
+
     <script src="{% static 'cat/js/jquery-3.6.0.min.js' %}"></script>
+    <script>
+        var userName = $("#user-banner>a").text()
+    </script>
+    <script src="{% static 'cat/js/csrf.js' %}"></script>
     <script src="{% static 'cat/js/navbar.js' %}"></script>
     <script src="{% static 'cat/js/modal.js' %}"></script>
 

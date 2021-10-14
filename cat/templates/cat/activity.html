@@ -16,10 +16,10 @@
     <h1 class="page-title">Activity History</h1>
 
     <div class="filter">
-        <button class="selected">Past Week</button>
-        <button>Past Month</button>
-        <button>Past Year</button>
-        <button>All</button>
+        <button data-duration="week" id="weekRecord">Past Week</button>
+        <button data-duration="month">Past Month</button>
+        <button data-duration="year">Past Year</button>
+        <button data-duration="all">All</button>
     </div>
 
     <div class="history-list">
@@ -31,7 +31,7 @@
                     <th>Who</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="activities">
                 <tr>
                     <td>2021/05/25</td>
                     <td>Cathy cooked your cat Lucy.</td>
