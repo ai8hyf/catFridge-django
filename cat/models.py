@@ -2,11 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import json
 
-class Cat(models.Model):
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
-    
+class Cat(models.Model):    
     owner =  models.CharField(max_length=150)
     borrower = models.CharField(max_length=150)
 

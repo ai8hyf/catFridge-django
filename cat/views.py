@@ -69,15 +69,38 @@ def addCat(request):
         newCat.save()
 
         return HttpResponse("Success")
-
-
-def getCat(username):
-    catList = list(Cat.objects.get(owner = username))    
+   
 
 @login_required(login_url='/cat/login')
-def borrow(request):
-    context = {'username': request.user.username, 'email': request.user.email}
-    return render(request, 'cat/borrow.html', context)
+def search(request):
+    if request.method == "GET" and 'keyword' not in request.GET:
+        context = {'username': request.user.username, 'email': request.user.email, 'isSearch': False}
+        return render(request, 'cat/search.html', context)
+    elif request.method == "GET" and request.GET['keyword'] != '':
+        searchResult = {}
+
+        keyword = request.GET['keyword'].strip()
+
+        if request.GET['search-option'] == 'cat':
+            searchResult['isCat'] = True
+            try:
+                searchResult['Exist'] = True
+                searchResult['content'] = Cat.objects.get(id = keyword)
+            except:
+                searchResult['Exist'] = False
+
+        elif request.GET['search-option'] == 'user':
+            searchResult['isCat'] = False
+            try:
+                searchResult['Exist'] = True
+                searchResult['content'] = User.objects.get(username = keyword)
+            except:
+                searchResult['Exist'] = False
+
+        context = {'username': request.user.username, 'email': request.user.email, 'isSearch': True, 'searchResult': searchResult}
+        
+        return render(request, 'cat/search.html', context)
+
 
 @login_required(login_url='/cat/login')
 def activity(request):

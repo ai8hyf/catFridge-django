@@ -30,18 +30,26 @@ h1{
     padding: 5px 20px;
 }
 
-.input-group>label{
-    margin: 20px 0;
-    width: 20%;
+.input-group>button{
+    margin: 10px 0;
     font-size: 30px;
-    padding: 10px 0;
+    padding: 10px 30px;
     line-height: 42px;
-    padding-right: 10px;
+    background-color: white;
+    border: 3px solid black;
+    border-left: none;
+    transition: all .3s;
+}
+.input-group>button:hover{
+    /* transform: scale(1.25, 1.25); */
+    background-color: black;
+    color: white;
+    transition: all .3s;
 }
 
 .input-group>input{
     border: 3px solid black;
-    margin: 20px 0;
+    margin: 10px 0;
     font-size: 30px;
     font-family: inherit;
     padding: 10px 20px;
@@ -55,8 +63,25 @@ h1{
     outline: none;
 }
 
+.radio-group{
+    display: block;
+    width: 100%;
+    font-family: Andale Mono, monospace;
+    font-size: 20px;
+    padding:0 20px;
+    text-align: center;
+}
+
 .cat-found{
-    padding: 20px;
+    padding:20px;
+}
+
+.cat-found>h3{
+    font-family: Andale Mono, monospace;
+    font-size: 200%;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed black;
 }
 
 .one-box{
