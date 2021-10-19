@@ -10,4 +10,5 @@ urlpatterns = [
     path('activity/', views.activity, name='activity'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
+    path('fridge/updateCatDesc', views.updateCatDesc, name='updateCatDesc'),
 ]

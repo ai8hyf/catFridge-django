@@ -4,7 +4,7 @@ from django.urls import include, path, re_path
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('CNIT581-004/', include('cat.urls')),
+    path('CNIT581-048-project3/', include('cat.urls')),
     path('cat/', include('cat.urls')),
     path('admin/', admin.site.urls),
 ]

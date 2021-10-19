@@ -73,7 +73,7 @@ a.btn{
     text-decoration: none;
 }
 
-.btn-submit:hover{
+.btn-submit:hover, btn-submit-temp{
     background-color: green;
     border: 3px solid green;
     color: white;
@@ -143,7 +143,7 @@ a.btn{
     font-family: Comic Sans MS, Comic Sans, cursive;;
 }
 
-.cat-stats-list>li>span{
+.cat-stats-list>li>span.column-name{
     border: 3px solid white;
     font-weight: bold;
     width: 120px;

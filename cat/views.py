@@ -8,12 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Cat
 from django.core import serializers
-import json
+from functools import lru_cache
+
 
 @login_required(login_url='/cat/login')
 def index(request):
     context = {'username': request.user.username, 'email': request.user.email}
     return render(request, 'cat/index.html', context)
+
 
 @login_required(login_url='/cat/login')
 def fridge(request):
@@ -46,7 +48,7 @@ def addCat(request):
             catHealth = 50,
             catHappiness = 50,
             catWeight = 50,
-            catAge = 0,
+            catAge = 0, # in minutes
             headSize = oneCat['headSize'],
             neckLength = oneCat['neckLength'],
             neckWidth = oneCat['neckWidth'],
@@ -73,33 +75,71 @@ def addCat(request):
 
 @login_required(login_url='/cat/login')
 def search(request):
-    if request.method == "GET" and 'keyword' not in request.GET:
-        context = {'username': request.user.username, 'email': request.user.email, 'isSearch': False}
-        return render(request, 'cat/search.html', context)
-    elif request.method == "GET" and request.GET['keyword'] != '':
-        searchResult = {}
 
+    lastSearchOption = 'cat'
+    isSearch = False
+    searchResult = {}
+
+    if 'lastSearchOption' in request.session:
+        lastSearchOption = request.session['lastSearchOption']
+    
+    if request.method == "GET" and 'keyword' in request.GET and request.GET['keyword'] != '':
         keyword = request.GET['keyword'].strip()
 
-        if request.GET['search-option'] == 'cat':
-            searchResult['isCat'] = True
-            try:
-                searchResult['Exist'] = True
-                searchResult['content'] = Cat.objects.get(id = keyword)
-            except:
-                searchResult['Exist'] = False
+        searchResult['content'], searchResult["Exist"], searchResult['isCat'] = queryKeywordFromDB(keyword, request.GET['search-option'])
 
-        elif request.GET['search-option'] == 'user':
-            searchResult['isCat'] = False
-            try:
-                searchResult['Exist'] = True
-                searchResult['content'] = User.objects.get(username = keyword)
-            except:
-                searchResult['Exist'] = False
+        isSearch = True
+        request.session['lastSearchOption'] = request.GET['search-option']
+        lastSearchOption = request.session['lastSearchOption']
+    
+    context = {
+        'username': request.user.username, 
+        'email': request.user.email, 
+        'isSearch': isSearch, 
+        'lastSearchOption': lastSearchOption, 
+        'searchResult': searchResult
+    }
+    
+    return render(request, 'cat/search.html', context)
 
-        context = {'username': request.user.username, 'email': request.user.email, 'isSearch': True, 'searchResult': searchResult}
-        
-        return render(request, 'cat/search.html', context)
+
+@lru_cache(maxsize = 128)
+def queryKeywordFromDB(keyword, type):
+
+    # I plan to add more magic to the search function in the future
+
+    try:
+        ifExist = True
+        if type == 'cat':
+            res = Cat.objects.get(id = int(keyword))
+        else:
+            res = User.objects.get(username = keyword)
+    except:
+        res = None
+        ifExist = False
+            
+    return [res, ifExist, type == 'cat']
+
+
+@login_required(login_url='/cat/login')
+def updateCatDesc(request):
+
+    if request.method == "POST" and request.is_ajax():
+
+        catID = int(request.POST['catID'])
+        catDesc = request.POST['catDesc']
+        try:
+            targetCat = Cat.objects.get(id = catID)
+
+            if targetCat.owner == request.user.username and len(catDesc.strip()) < 200:
+                targetCat.catDesc = catDesc
+                targetCat.save()
+
+                return HttpResponse("1") # success
+        except:
+            return HttpResponse("2") # cat does not exist
+    
+    return HttpResponse("3") # hehe
 
 
 @login_required(login_url='/cat/login')
@@ -160,29 +200,8 @@ def register(request):
     auth.logout(request)
     return render(request, 'cat/register.html', {})
 
+# no longer needed since I've already applied backend db.
 catFromDB = {
-    "TEST01": {
-        "catName": "Arthur",
-        "catMotto": "I love Jerry",
-        "catID": "TEST01",
-        "headSize": 100,
-        "neckLength": 10,
-        "neckWidth": 20,
-        "bodyHeight": 200,
-        "bodyWidth": 150,
-        "tailLength": 150,
-        "faceColor": "#ffffff",
-        "bodyColor": "#ff0000",
-        "tailColor": "#000000",
-        "headGlowColor": "#e8ff73",
-        "bodyTLRadius": "50%",
-        "bodyTRRadius": "50%",
-        "bodyBLRadius": "25%",
-        "bodyBRRadius": "25%",
-        "bodyTatoo": "Supreme",
-        "tatooColor": "#ffffff",
-        "headAlign": "center"
-    },
     "TEST02": {
         "catName": "Brandon", "catMotto": "I'm not a bear.", "catID": "TEST02", "headSize": 40, "neckLength": 100, "neckWidth": 0, "bodyHeight": 200, "bodyWidth": 100, "tailLength": 100, "faceColor": "#000000", "bodyColor": "#000000", "tailColor": "#000000", "headGlowColor": "#000000", "bodyTLRadius": "10%", "bodyTRRadius": "10%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "OffWhite", "tatooColor": "#000000", "headAlign": "left"
     },

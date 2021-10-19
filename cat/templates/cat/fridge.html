@@ -64,20 +64,19 @@
 
             <div class="modal-content">
                 <ul class="cat-stats-list">
-                    <li><span>ID</span>FAEE6R</li>
-                    <li><span>NAME</span><input type="text" class="cat-stats-edit" value="LUCY"></li>
-                    <li><span>MOTTO</span><input type="text" class="cat-stats-edit" value="This cat hates dogs."></li>
-                    <li><span>OWNER</span>ai8hyf@gmail.com</li>
-                    <li><span>BREAD</span>DOG-HATER</li>
-                    <li><span>AGE</span>18 HOURS</li>
-                    <li><span>WEIGHT</span>22 POUND</li>
-                    <li><span>WISDOM</span>15 / 100</li>
+                    <li><span class="column-name">ID</span><span id="cat-stats-list-id"></span></li>
+                    <li><span class="column-name">NAME</span><span id="cat-stats-list-name"></span></li>
+                    <li><span class="column-name">MOTTO</span><input type="text" class="cat-stats-edit" id="cat-stats-list-motto" required></li>
+                    <li><span class="column-name">OWNER</span><span id="cat-stats-list-owner"></span></li>
+                    <li><span class="column-name">AGE</span><span id="cat-stats-list-age"></span></li>
+                    <li><span class="column-name">WEIGHT</span><span id="cat-stats-list-weight"></span></li>
+                    <li><span class="column-name">HEALTH</span><span id="cat-stats-list-health"></span></li>
                 </ul>
             </div>
 
             <div class="modal-controls">
-                <button class="btn btn-cancel">CANCEL</button>
-                <button class="btn btn-submit">SUBMIT</button>
+                <button class="btn btn-cancel close-modal-button" data-close="#cat-stats-modal">CANCEL</button>
+                <button class="btn btn-submit" id="update-cat-desc-btn">SUBMIT</button>
             </div>
         </div>
     </div>

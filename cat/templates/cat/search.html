@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Borrow</title>
+    <title>Search</title>
 {% endblock title %}
 
 {% block css %}
@@ -19,17 +19,28 @@
         {% csrf_token %}
 
         <div class="input-group">
-            <input id="search-content" name="keyword" type="text" placeholder="who or what?">
+            <input id="search-content" name="keyword" type="text" placeholder="who or what?" required>
             <button type="submit"><i class="fas fa-search"></i></button>
         </div>
     
         <div class="radio-group">
-            <input type="radio" id="option-cat" name="search-option" value="cat" checked>
+
+            {% if lastSearchOption == "cat" %}
+                <input type="radio" id="option-cat" name="search-option" value="cat" checked>
+            {% else %}
+                <input type="radio" id="option-cat" name="search-option" value="cat">
+            {% endif %}
+
+            
             <label for="option-cat">Cat ID</label>
     
             <span style="margin: 0 10px;">|</span>
-    
-            <input type="radio" id="option-user" name="search-option" value="user">
+            
+            {% if lastSearchOption == "user" %}
+                <input type="radio" id="option-user" name="search-option" value="user" checked>
+            {% else %}
+                <input type="radio" id="option-user" name="search-option" value="user">
+            {% endif %}
             <label for="option-user">User Name</label>
         </div>
     </form>
@@ -77,7 +88,7 @@
                 </div>
 
             {% else %}
-                <h3>Found: NOTHING!</h3>
+                <h3>Nothing...</h3>
             {% endif %}
 
         {% else %}
@@ -106,7 +117,7 @@
         
                 </div>
             {% else %}
-                <h3>Found: NOTHING!</h3>
+                <h3>Nothing...</h3>
             {% endif %}
         {% endif %}
 
@@ -119,5 +130,5 @@
 {% endblock container %}
 
 {% block js %}
-    <script src="{% static 'cat/js/borrow.js' %}"></script>
+    <script src="{% static 'cat/js/search.js' %}"></script>
 {% endblock js %}

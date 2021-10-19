@@ -70,6 +70,22 @@ h1{
     font-size: 20px;
     padding:0 20px;
     text-align: center;
+    user-select: none;
+}
+
+.radio-group>input{
+    appearance: none;
+    display: none;
+}
+
+.radio-group>label{
+    color: gray;
+}
+
+.radio-group>input:checked+label{
+    border-bottom: 3px solid black;
+    color: black;
+    font-weight: bold;
 }
 
 .cat-found{
