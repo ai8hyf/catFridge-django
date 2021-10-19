@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-import json
 
 class Cat(models.Model):    
-    owner =  models.CharField(max_length=150)
-    borrower = models.CharField(max_length=150)
+    owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name='ownerFK')
+    
+    # this might not be the best practice. There should be a table for managing borrows.
+    borrower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='borrowerFK', null=True)
 
     catName = models.CharField(max_length=20)
     catDesc = models.CharField(max_length=200)
@@ -15,6 +16,7 @@ class Cat(models.Model):
 
     catAge = models.IntegerField()
 
+    # # still thinking about this one.
     # adoptDate = models.DateTimeField()
 
     headSize = models.IntegerField()

@@ -7,7 +7,6 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Cat
-from django.core import serializers
 from functools import lru_cache
 
 
@@ -28,8 +27,42 @@ def fridge(request):
         if request.is_ajax():
             # OFFSET and LIMIT will be used in sql queries later.
             if int(request.POST['OFFSET']) == 0 and int(request.POST['OFFSET']) == 0:
-                catList = list(Cat.objects.values().filter(owner = request.user.username))
-                return JsonResponse(catList, safe=False)
+                catOwner = User.objects.get(id = request.user.id)
+
+                allCatJson = {}
+
+                catQuerySet = Cat.objects.all().filter(owner = catOwner)
+
+                for c in catQuerySet:
+                    allCatJson[c.id] = {
+                        "owner": c.owner.username,
+                        "borrower": c.borrower,
+                        "catName": c.catName,
+                        "catDesc": c.catDesc,
+                        "catHealth": c.catHealth,
+                        "catHappiness": c.catHappiness,
+                        "catWeight": c.catWeight,
+                        "catAge": c.catAge, # in minutes
+                        "headSize": c.headSize,
+                        "neckLength": c.neckLength,
+                        "neckWidth": c.neckWidth,
+                        "bodyHeight": c.bodyHeight,
+                        "bodyWidth": c.bodyWidth,
+                        "tailLength": c.tailLength,
+                        "faceColor": c.faceColor,
+                        "bodyColor": c.bodyColor,
+                        "tailColor": c.tailColor,
+                        "headGlowColor": c.headGlowColor,
+                        "bodyTLRadius": c.bodyTLRadius,
+                        "bodyTRRadius": c.bodyTRRadius,
+                        "bodyBLRadius": c.bodyBLRadius,
+                        "bodyBRRadius": c.bodyBRRadius,
+                        "bodyTatoo": c.bodyTatoo,
+                        "tatooColor": c.tatooColor,
+                        "headAlign": c.headAlign,
+                    }
+
+                return JsonResponse(allCatJson, safe=False)
 
 
 @login_required(login_url='/cat/login')
@@ -41,8 +74,8 @@ def addCat(request):
         oneCat = request.POST
 
         newCat = Cat(
-            owner = request.user.username,
-            borrower = "",
+            owner = User.objects.get(id = request.user.id),
+            # borrower = "",
             catName = oneCat['catName'],
             catDesc = oneCat['catMotto'],
             catHealth = 50,
@@ -131,7 +164,7 @@ def updateCatDesc(request):
         try:
             targetCat = Cat.objects.get(id = catID)
 
-            if targetCat.owner == request.user.username and len(catDesc.strip()) < 200:
+            if targetCat.owner == User.objects.get(id = request.user.id) and len(catDesc.strip()) < 200:
                 targetCat.catDesc = catDesc
                 targetCat.save()
 
