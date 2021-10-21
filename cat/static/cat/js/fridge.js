@@ -36,7 +36,7 @@ function showStatsModal(catID){
     $("#cat-stats-list-id").data("cat-id", catID)
     $("#cat-stats-list-name").text(catFromDB[catID].catName)
     $("#cat-stats-list-motto").val(catFromDB[catID].catDesc)
-    $("#cat-stats-list-owner").text(catFromDB[catID].owner)
+    $("#cat-stats-list-owner").text(catFromDB[catID].owner.username)
     $("#cat-stats-list-age").text(catFromDB[catID].catAge.toString() + " Minutes")
     $("#cat-stats-list-weight").text(catFromDB[catID].catWeight.toString() + " Pounds")
     $("#cat-stats-list-health").text(catFromDB[catID].catHealth.toString())

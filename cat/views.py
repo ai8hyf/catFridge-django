@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Cat
 from functools import lru_cache
+from .serializers import *
 
 
 @login_required(login_url='/cat/login')
@@ -33,36 +34,9 @@ def fridge(request):
 
                 catQuerySet = Cat.objects.all().filter(owner = catOwner)
 
-                for c in catQuerySet:
-                    allCatJson[c.id] = {
-                        "owner": c.owner.username,
-                        "borrower": c.borrower,
-                        "catName": c.catName,
-                        "catDesc": c.catDesc,
-                        "catHealth": c.catHealth,
-                        "catHappiness": c.catHappiness,
-                        "catWeight": c.catWeight,
-                        "catAge": c.catAge, # in minutes
-                        "headSize": c.headSize,
-                        "neckLength": c.neckLength,
-                        "neckWidth": c.neckWidth,
-                        "bodyHeight": c.bodyHeight,
-                        "bodyWidth": c.bodyWidth,
-                        "tailLength": c.tailLength,
-                        "faceColor": c.faceColor,
-                        "bodyColor": c.bodyColor,
-                        "tailColor": c.tailColor,
-                        "headGlowColor": c.headGlowColor,
-                        "bodyTLRadius": c.bodyTLRadius,
-                        "bodyTRRadius": c.bodyTRRadius,
-                        "bodyBLRadius": c.bodyBLRadius,
-                        "bodyBRRadius": c.bodyBRRadius,
-                        "bodyTatoo": c.bodyTatoo,
-                        "tatooColor": c.tatooColor,
-                        "headAlign": c.headAlign,
-                    }
+                serializer = CatDetailSerializer(catQuerySet, many=True)
 
-                return JsonResponse(allCatJson, safe=False)
+                return JsonResponse(serializer.data, safe=False)
 
 
 @login_required(login_url='/cat/login')
