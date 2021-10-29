@@ -26,11 +26,10 @@ def fridge(request):
     else:
         # to demonstrate the AJAX concept 
         if request.is_ajax():
+            
             # OFFSET and LIMIT will be used in sql queries later.
             if int(request.POST['OFFSET']) == 0 and int(request.POST['OFFSET']) == 0:
                 catOwner = User.objects.get(id = request.user.id)
-
-                allCatJson = {}
 
                 catQuerySet = Cat.objects.all().filter(owner = catOwner)
 
@@ -42,8 +41,6 @@ def fridge(request):
 @login_required(login_url='/cat/login')
 def addCat(request):
     if request.method == "POST" and request.is_ajax():
-        
-        print(request.POST)
 
         oneCat = request.POST
 
@@ -133,20 +130,21 @@ def updateCatDesc(request):
 
     if request.method == "POST" and request.is_ajax():
 
-        catID = int(request.POST['catID'])
+        catID = request.POST['catID']
         catDesc = request.POST['catDesc']
-        try:
+
+        if Cat.objects.filter(id = catID).count() == 1:
             targetCat = Cat.objects.get(id = catID)
 
             if targetCat.owner == User.objects.get(id = request.user.id) and len(catDesc.strip()) < 200:
                 targetCat.catDesc = catDesc
-                targetCat.save()
+                targetCat.save(update_fields=['catDesc'])
 
                 return HttpResponse("1") # success
-        except:
+        else:
             return HttpResponse("2") # cat does not exist
     
-    return HttpResponse("3") # hehe
+    return HttpResponse("3") # other issues
 
 
 @login_required(login_url='/cat/login')
@@ -207,36 +205,8 @@ def register(request):
     auth.logout(request)
     return render(request, 'cat/register.html', {})
 
-# no longer needed since I've already applied backend db.
-catFromDB = {
-    "TEST02": {
-        "catName": "Brandon", "catMotto": "I'm not a bear.", "catID": "TEST02", "headSize": 40, "neckLength": 100, "neckWidth": 0, "bodyHeight": 200, "bodyWidth": 100, "tailLength": 100, "faceColor": "#000000", "bodyColor": "#000000", "tailColor": "#000000", "headGlowColor": "#000000", "bodyTLRadius": "10%", "bodyTRRadius": "10%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "OffWhite", "tatooColor": "#000000", "headAlign": "left"
-    },
-    "TEST03": {
-        "catName": "Charlie", "catMotto": "I love Jerry", "catID": "TEST03", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 100, "tailLength": 150, "faceColor": "#00ff00", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "LUCK", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST04": {
-        "catName": "Dawn", "catMotto": "I love Jerry", "catID": "TEST04", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#ee00ee", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "YYY", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST05": {
-        "catName": "Eric", "catMotto": "I love Jerry", "catID": "TEST05", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#0000ff", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Yooo", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST06": {
-        "catName": "Frank", "catMotto": "I love Jerry", "catID": "TEST06", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#11ee55", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Hello", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST07": {
-        "catName": "Gaga", "catMotto": "I love Jerry", "catID": "TEST07", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#0f0f0f", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Bingo", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST08": {
-        "catName": "Harry", "catMotto": "I love Jerry", "catID": "TEST08", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#669900", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Dog", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST09": {
-        "catName": "Isaac", "catMotto": "I love Jerry", "catID": "TEST09", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#222222", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Ghost", "tatooColor": "#2176fb", "headAlign": "center"
-    },
-    "TEST10": {
-        "catName": "Jack", "catMotto": "I love Jerry", "catID": "TEST10", "headSize": 200, "neckLength": 100, "neckWidth": 1, "bodyHeight": 50, "bodyWidth": 200, "tailLength": 150, "faceColor": "#22ff00", "bodyColor": "#fdc131", "tailColor": "#000000", "headGlowColor": "#ffffff", "bodyTLRadius": "25%", "bodyTRRadius": "25%", "bodyBLRadius": "25%", "bodyBRRadius": "25%", "bodyTatoo": "Cool", "tatooColor": "#2176fb", "headAlign": "center"
-    }
-}
+
+
 
 recordHistory = {
     "1": {

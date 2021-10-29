@@ -15,7 +15,7 @@ class CatDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Cat
-        fields = ['owner', 'borrower', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge', 'headSize', 'neckLength', 'neckWidth', 'bodyHeight', 'bodyWidth', 'tailLength', 'faceColor', 'bodyColor', 'tailColor', 'headGlowColor', 'bodyTLRadius', 'bodyTRRadius', 'bodyBLRadius', 'bodyBRRadius', 'bodyTatoo', 'tatooColor', 'headAlign']
+        fields = ['id','owner', 'borrower', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge', 'headSize', 'neckLength', 'neckWidth', 'bodyHeight', 'bodyWidth', 'tailLength', 'faceColor', 'bodyColor', 'tailColor', 'headGlowColor', 'bodyTLRadius', 'bodyTRRadius', 'bodyBLRadius', 'bodyBRRadius', 'bodyTatoo', 'tatooColor', 'headAlign']
 
 # get some cat info
 class CatSummarySerializer(serializers.ModelSerializer):    
@@ -23,4 +23,4 @@ class CatSummarySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Cat
-        fields = ['owner', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge']
+        fields = ['id','owner', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge']

@@ -28,18 +28,19 @@ function showBorrowManageModal(modalID){
     $(modalID).fadeIn()
 }
 
-function showStatsModal(catID){
+function showStatsModal(catIdx){
 
-    console.log(catFromDB[catID])
+    console.log(catFromDB[catIdx])
     // populate the popup modal before displaying it.
-    $("#cat-stats-list-id").text(catID)
-    $("#cat-stats-list-id").data("cat-id", catID)
-    $("#cat-stats-list-name").text(catFromDB[catID].catName)
-    $("#cat-stats-list-motto").val(catFromDB[catID].catDesc)
-    $("#cat-stats-list-owner").text(catFromDB[catID].owner.username)
-    $("#cat-stats-list-age").text(catFromDB[catID].catAge.toString() + " Minutes")
-    $("#cat-stats-list-weight").text(catFromDB[catID].catWeight.toString() + " Pounds")
-    $("#cat-stats-list-health").text(catFromDB[catID].catHealth.toString())
+    $("#cat-stats-list-id").text(catFromDB[catIdx].id)
+    $("#cat-stats-list-id").data("cat-id", catFromDB[catIdx].id)
+    $("#cat-stats-list-id").data("cat-idx", catIdx)
+    $("#cat-stats-list-name").text(catFromDB[catIdx].catName)
+    $("#cat-stats-list-motto").val(catFromDB[catIdx].catDesc)
+    $("#cat-stats-list-owner").text(catFromDB[catIdx].owner.username)
+    $("#cat-stats-list-age").text(catFromDB[catIdx].catAge.toString() + " Minutes")
+    $("#cat-stats-list-weight").text(catFromDB[catIdx].catWeight.toString() + " Pounds")
+    $("#cat-stats-list-health").text(catFromDB[catIdx].catHealth.toString())
 
     $("#cat-stats-modal").fadeIn()
 }
@@ -50,6 +51,8 @@ $("#update-cat-desc-btn").click(function(){
         catID: $("#cat-stats-list-id").data("cat-id"),
         catDesc: $("#cat-stats-list-motto").val() 
     }
+
+    catIdx = $("#cat-stats-list-id").data("cat-idx")
     console.log(JsonRequest)
 
     $.ajax({
@@ -60,12 +63,13 @@ $("#update-cat-desc-btn").click(function(){
         url: "./updateCatDesc",
         data: JsonRequest,
         success: function(res){
+            console.log(res)
             $("#update-cat-desc-btn").html('')
             if(res == "1"){
                 $("#update-cat-desc-btn").text("Updated!")
                 $("#cat-stats-list-motto").css({"border-color": "green", "color": "green"})
                 
-                catFromDB[JsonRequest.catID].catDesc = JsonRequest['catDesc']
+                catFromDB[catIdx].catDesc = JsonRequest['catDesc']
             }else{
                 $("#update-cat-desc-btn").text("Failed!")
                 $("#cat-stats-list-motto").css({"border-color": "red", "color": "red"})
@@ -122,29 +126,6 @@ function generateCat(){
 }
 
 function jsonToCat(containerSelector, catJSON){
-
-    // I might even decide to redo this part with WebGL
-
-    // // default cat config
-    // let catJSON = {
-    //     headSize: 100,
-    //     neckLength: 10,
-    //     neckWidth: 20,
-    //     bodyHeight: 200,
-    //     bodyWidth: 150,
-    //     tailLength: 150,
-    //     faceColor: "#ffffff",
-    //     bodyColor: "#ff0000",
-    //     tailColor: "#000000",
-    //     headGlowColor: "#e8ff73",
-    //     bodyTLRadius: "50%",
-    //     bodyTRRadius: "50%",
-    //     bodyBLRadius: "25%",
-    //     bodyBRRadius: "25%",
-    //     bodyTatoo: "Supreme",
-    //     tatooColor: "#ffffff",
-    //     headAlign: "center"
-    // }
 
     let maxHeight = $(containerSelector).height() - 40;
     let totalHeight = parseInt(catJSON.headSize) +  parseInt(catJSON.neckLength) +  parseInt(catJSON.bodyHeight)
@@ -264,21 +245,19 @@ function renderLists(catListJSON){
 
     let totalCat = 0
 
-    for(let catID in catListJSON){
-
+    for(let i = 0; i<catListJSON.length; i++){
+        catID = catListJSON[i].id
         totalCat += 1
-
-        // console.log(catListJSON[catID])
 
         // create the container with catID
         $(".cat-list").append('<div class="one-box" id="'+ catID +'"></div>')
 
         // add the hover buttons
         // the parameters need to be dynamic in the future
-        $("#"+catID).append('<div class="box-controls"><button><i class="fas fa-temperature-high"></i> Defrost</button><button onclick=\'alert("This function will be ready in the next update.")\'><i class="fas fa-share-square"></i> Share</button><button onclick=\'showStatsModal('+catID+')\'><i class="fas fa-info-circle"></i> Stats</button></div>')
+        $("#"+catID).append('<div class="box-controls"><button><i class="fas fa-temperature-high"></i> Defrost</button><button onclick=\'alert("This function will be ready in the next update.")\'><i class="fas fa-share-square"></i> Share</button><button onclick=\'showStatsModal('+i+')\'><i class="fas fa-info-circle"></i> Stats</button></div>')
 
         // cat name bar
-        $("#"+catID).append('<div class="cat-name">'+catListJSON[catID].catName+'</div>')
+        $("#"+catID).append('<div class="cat-name">'+catListJSON[i].catName+'</div>')
 
         // cat skeleton
         // this will be the container for rendering cat
@@ -286,10 +265,10 @@ function renderLists(catListJSON){
 
         // some stats
         // also need to be dynamic
-        $("#"+catID).append('<div class="cat-info"><span><i class="fas fa-heart"></i> '+catListJSON[catID].catHealth+' %</span><span><i class="fas fa-weight"></i> '+catListJSON[catID].catWeight+' lb</span><span><i class="fas fa-clock"></i> '+catListJSON[catID].catAge+' min</span></div>')
+        $("#"+catID).append('<div class="cat-info"><span><i class="fas fa-heart"></i> '+catListJSON[i].catHealth+' %</span><span><i class="fas fa-weight"></i> '+catListJSON[i].catWeight+' lb</span><span><i class="fas fa-clock"></i> '+catListJSON[i].catAge+' min</span></div>')
 
         // render cat with magic
-        jsonToCat("#"+catID+">.cat-graph", catListJSON[catID])
+        jsonToCat("#"+catID+">.cat-graph", catListJSON[i])
     }
 
     $("#cat-count").text(totalCat)
