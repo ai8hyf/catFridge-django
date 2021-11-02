@@ -34,10 +34,10 @@
     color: white;
 }
 
-.modal-header>span{
+.modal-header>span.close-modal-button{
     float: right;
 }
-.modal-header>span:hover{
+.modal-header>span.close-modal-button:hover{
     transform: scale(1.3, 1.3);
 }
 
@@ -151,6 +151,20 @@ a.btn{
     text-align: left;
     color: grey;
     cursor: help;
+}
+
+.image-column{
+    height: 80px;
+    display: block;
+    float: left;
+    line-height: 80px;
+}
+
+#user-info-header{
+    display: block;
+    border: 3px solid black;
+    height: 80px;
+    width: 80px;
 }
 
 .cat-stats-edit{

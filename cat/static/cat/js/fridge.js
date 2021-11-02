@@ -1,3 +1,8 @@
+$(document).ready(function(){
+    getCatsFromDB()
+    $("#menu-fridge").addClass("active")
+})
+
 let catFromDB = {}
 
 function getCatsFromDB(){
@@ -19,10 +24,6 @@ function getCatsFromDB(){
     })
 }
 
-getCatsFromDB()
-
-$("#menu-fridge").addClass("active")
-
 function showBorrowManageModal(modalID){
     // this function should contain more stuff when backend is ready
     $(modalID).fadeIn()
@@ -32,6 +33,8 @@ function showStatsModal(catIdx){
 
     console.log(catFromDB[catIdx])
     // populate the popup modal before displaying it.
+    $("#cat-name-header").text(catFromDB[catIdx].catName)
+
     $("#cat-stats-list-id").text(catFromDB[catIdx].id)
     $("#cat-stats-list-id").data("cat-id", catFromDB[catIdx].id)
     $("#cat-stats-list-id").data("cat-idx", catIdx)

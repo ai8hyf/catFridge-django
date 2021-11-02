@@ -6,9 +6,31 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Cat
+from .models import Cat, User_Extra
 from functools import lru_cache
 from .serializers import *
+
+
+
+
+def getExtraUserInfo(user_id):
+
+    currentUser = User.objects.get(id = user_id)
+    # extraUser = {}
+    # extraUser['exist'] = False
+    extraUser, created = User_Extra.objects.get_or_create(user = currentUser, defaults={
+        'user': currentUser,
+        "about": "",
+        "birthdate": "1970-01-01",
+    })
+
+    extraUser = UserExtraSerializer(extraUser, many = False)
+
+    # if User_Extra.objects.filter(user = currentUser).exists():
+    #     extraUser = UserExtraSerializer(User_Extra.objects.get(user = currentUser), many = False)
+    #     extraUser['exist'] = True
+
+    return extraUser
 
 
 @login_required(login_url='/cat/login')
@@ -19,9 +41,15 @@ def index(request):
 
 @login_required(login_url='/cat/login')
 def fridge(request):
+
     context = {'username': request.user.username, 'email': request.user.email}
 
     if request.method == 'GET':
+
+        # extraUserInfo = getExtraUserInfo(request.user.id)
+        # print(extraUserInfo['exist'])
+        # print(extraUserInfo)
+
         return render(request, 'cat/fridge.html', context)
     else:
         # to demonstrate the AJAX concept 
@@ -37,6 +65,11 @@ def fridge(request):
 
                 return JsonResponse(serializer.data, safe=False)
 
+@login_required(login_url='/cat/login')
+def getUserDetail(request):
+    if request.is_ajax():
+        extraUserInfo = getExtraUserInfo(request.user.id)
+        return JsonResponse(extraUserInfo.data, safe=False)
 
 @login_required(login_url='/cat/login')
 def addCat(request):
@@ -147,6 +180,8 @@ def updateCatDesc(request):
     return HttpResponse("3") # other issues
 
 
+
+
 @login_required(login_url='/cat/login')
 def activity(request):
     context = {'username': request.user.username, 'email': request.user.email}
@@ -204,7 +239,6 @@ def register(request):
     # GET request for accessing the view
     auth.logout(request)
     return render(request, 'cat/register.html', {})
-
 
 
 

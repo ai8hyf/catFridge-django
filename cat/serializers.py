@@ -8,6 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username']
 
+# get extra user info
+class UserExtraSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only = True)
+
+    class Meta:
+        model = User_Extra
+        fields = ['user', 'about', 'birthdate', 'header']
+
 # get all cat info
 class CatDetailSerializer(serializers.ModelSerializer):    
     owner = UserSerializer(read_only = True)

@@ -13,9 +13,28 @@ $("#menu-expand").click(function(){
     }
 })
 
-
 // below is related to the user banner and pop-up modal
 $("#user-banner").click(function(e){
     e.preventDefault()
-    $("#user-info-modal").fadeIn()
+
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/getUserDetail",
+        method: "GET",
+        success: function(result){
+            console.log(result)
+
+            // if(result['header']!=null){
+            //     $("#user-info-header").attr("scr", result['header'])
+            // }
+
+            $("#user-info-about").val(result['about'])
+            $("#user-info-birthday").val(result['birthdate'])
+
+            $("#user-info-modal").fadeIn()
+        }
+    })
 })
+

@@ -49,9 +49,11 @@
 
             <div class="modal-content">
                 <ul class="cat-stats-list">
-                    <li><span class="column-name">NAME</span><input type="text" class="cat-stats-edit" value="{{ username }}" disabled></li>
-                    <li><span class="column-name">ABOUT</span><input type="text" class="cat-stats-edit" value="I am a single dog." placeholder="Something about you." disabled></li>
+                    <li><span class="column-name image-column">HEADER</span><img src="{% static 'cat/img/temp-header.png' %}" alt="header image" id="user-info-header"></li>
+                    <li><span class="column-name">NAME</span>{{ username }}</li>
                     <li><span class="column-name">E-MAIL</span>{{ email }}</li>
+                    <li><span class="column-name">ABOUT</span><input type="text" class="cat-stats-edit" id="user-info-about" value="" placeholder="Something about you."></li>
+                    <li><span class="column-name">B-DAY</span><input type="date" class="cat-stats-edit" id="user-info-birthday"></li>
                 </ul>
             </div>
 
@@ -69,8 +71,8 @@
         var userName = $("#user-banner>a").text()
     </script>
     <script src="{% static 'cat/js/csrf.js' %}"></script>
-    <script src="{% static 'cat/js/navbar.js' %}"></script>
     <script src="{% static 'cat/js/modal.js' %}"></script>
+    <script src="{% static 'cat/js/navbar.js' %}"></script>
 
     {% block js %}
     {% endblock js %}

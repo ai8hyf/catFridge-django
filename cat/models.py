@@ -1,5 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
+
+fs = FileSystemStorage(location='/media/photos')
+
+class User_Extra(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_Extra_FK', primary_key=True)
+    about = models.CharField(max_length=200)
+    birthdate = models.DateField(blank=True)
+    header = models.ImageField(storage=fs)
 
 class Cat(models.Model):    
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name='ownerFK')
