@@ -4,11 +4,25 @@ from django.core.files.storage import FileSystemStorage
 
 fs = FileSystemStorage(location='/media/photos')
 
+class IP_Location(models.Model):
+    ip = models.GenericIPAddressField(primary_key=True)
+    type = models.CharField(default="ipv4", max_length=4)
+    continent_name= models.CharField(max_length=20, null=True)
+    country_name = models.CharField(max_length=30, null=True)
+    region_name = models.CharField(max_length=50, null=True)
+    city = models.CharField(max_length=50, null=True)
+    zip = models.CharField(max_length=10, null=True)
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
+
 class User_Extra(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_Extra_FK', primary_key=True)
-    about = models.CharField(max_length=200)
+    about = models.CharField(max_length=200, blank=True, null=True)
     birthdate = models.DateField(blank=True)
     header = models.ImageField(storage=fs)
+
+    def __str__(self):
+        return str(self.user.id)+" "+self.user.username
 
 class Cat(models.Model):    
     owner =  models.ForeignKey(User, on_delete=models.CASCADE, related_name='ownerFK')
@@ -45,3 +59,6 @@ class Cat(models.Model):
     bodyTatoo = models.CharField(max_length=7)
     tatooColor = models.CharField(max_length=7)
     headAlign = models.CharField(max_length=6)
+
+    def __str__(self):
+        return str(self.id) + " " + self.catName

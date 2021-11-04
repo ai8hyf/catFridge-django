@@ -4,3 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(User_Extra)
 admin.site.register(Cat)
+admin.site.register(IP_Location)

@@ -3,6 +3,12 @@ from .models import *
 from django.contrib.auth.models import User
 
 # get username and id
+class IPLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IP_Location
+        fields = ['ip', 'country_name', 'region_name', 'city']
+
+# get username and id
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

@@ -6,11 +6,49 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Cat, User_Extra
+from .models import Cat, User_Extra, IP_Location
 from functools import lru_cache
 from .serializers import *
+import requests as rq
+from ipware import get_client_ip
 
 
+
+def getLocationForIP(incoming_ip):
+
+    # the api call works
+    # incoming_ip = "69.174.157.248"
+
+    # if you run it on a local server, the ip will always be 127.0.0.1
+
+    if IP_Location.objects.filter(ip = incoming_ip).exists() == False:
+        api_key = "333935a1f64af0aa8dcd64141c375269"
+        base_url = "http://api.ipstack.com/"
+        ip_stack_request = base_url + incoming_ip + "?access_key=" + api_key
+
+        res = rq.get(ip_stack_request)
+
+        res = res.json()
+
+        print(res)
+
+        new_ip = IP_Location(
+            ip = incoming_ip,
+            type = res['type'],
+            continent_name = res['continent_name'],
+            country_name = res['country_name'],
+            region_name = res['region_name'],
+            city = res['city'],
+            zip = str(res['zip']),
+            longitude = res['longitude'],
+            latitude = res['latitude']
+        )
+
+        new_ip.save()
+
+        return new_ip
+        
+    return IP_Location.objects.get(ip = incoming_ip)
 
 
 def getExtraUserInfo(user_id):
@@ -25,10 +63,6 @@ def getExtraUserInfo(user_id):
     })
 
     extraUser = UserExtraSerializer(extraUser, many = False)
-
-    # if User_Extra.objects.filter(user = currentUser).exists():
-    #     extraUser = UserExtraSerializer(User_Extra.objects.get(user = currentUser), many = False)
-    #     extraUser['exist'] = True
 
     return extraUser
 
@@ -69,7 +103,16 @@ def fridge(request):
 def getUserDetail(request):
     if request.is_ajax():
         extraUserInfo = getExtraUserInfo(request.user.id)
-        return JsonResponse(extraUserInfo.data, safe=False)
+
+        ip, is_routable = get_client_ip(request)
+
+        # ideally, we should display the last login IP. The following stuff is only for fulfilling the requirements of project 4. (No hard feelings!)
+
+        RES = {}
+        RES['ip_info'] = IPLocationSerializer(getLocationForIP(str(ip)), many=False).data
+        RES['user_info'] = extraUserInfo.data
+
+        return JsonResponse(RES, safe=False)
 
 @login_required(login_url='/cat/login')
 def addCat(request):

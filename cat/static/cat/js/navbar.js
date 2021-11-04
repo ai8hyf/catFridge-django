@@ -30,9 +30,14 @@ $("#user-banner").click(function(e){
             //     $("#user-info-header").attr("scr", result['header'])
             // }
 
-            $("#user-info-about").val(result['about'])
-            $("#user-info-birthday").val(result['birthdate'])
+            $("#user-info-about").val(result['user_info']['about'])
+            $("#user-info-birthday").val(result['user_info']['birthdate'])
 
+
+            $("#user-info-ip").text(result['ip_info']['ip'])
+            if(result['ip_info']['region_name']!=null){
+                $("#user-info-location").text(result['ip_info']['region_name'])
+            }
             $("#user-info-modal").fadeIn()
         }
     })

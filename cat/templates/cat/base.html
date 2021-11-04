@@ -44,7 +44,7 @@
 
         <div class="modal-body">
             <div class="modal-header">
-                About Yifei <span class="close-modal-button" data-close="#user-info-modal"><i class="fas fa-times"></i></span>
+                About {{ username }} <span class="close-modal-button" data-close="#user-info-modal"><i class="fas fa-times"></i></span>
             </div>
 
             <div class="modal-content">
@@ -54,6 +54,8 @@
                     <li><span class="column-name">E-MAIL</span>{{ email }}</li>
                     <li><span class="column-name">ABOUT</span><input type="text" class="cat-stats-edit" id="user-info-about" value="" placeholder="Something about you."></li>
                     <li><span class="column-name">B-DAY</span><input type="date" class="cat-stats-edit" id="user-info-birthday"></li>
+                    <li><span class="column-name">IP</span><span id="user-info-ip">UNKNOWN</span></li>
+                    <li><span class="column-name">WHERE</span><span id="user-info-location">UNKNOWN</span></li>
                 </ul>
             </div>
 
