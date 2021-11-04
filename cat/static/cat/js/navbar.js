@@ -26,9 +26,9 @@ $("#user-banner").click(function(e){
         success: function(result){
             console.log(result)
 
-            // if(result['header']!=null){
-            //     $("#user-info-header").attr("scr", result['header'])
-            // }
+            if(result['user_info']['header']!=null){
+                $("#user-info-header").attr("src", result['user_info']['header'])
+            }
 
             $("#user-info-about").val(result['user_info']['about'])
             $("#user-info-birthday").val(result['user_info']['birthdate'])
@@ -43,3 +43,78 @@ $("#user-banner").click(function(e){
     })
 })
 
+// $("#user-banner").click()
+
+// $("#user-info-header").hover(function(){
+//     $("#user-info-header").data("src", $("#user-info-header").attr("src"))
+//     $("#user-info-header").attr("src", "/static/cat/img/upload-icon.png")
+// }, function(){
+//     $("#user-info-header").attr("src", $("#user-info-header").data("src"))
+// })
+
+$("#user-info-header").click(function(){
+    croppieContainer.hide()
+    $("#choose-image-button").show()
+    $("#upload-edited-header").prop("disabled", true)
+    $("#upload-header-modal").fadeIn()
+})
+
+$("#clear-header-editor").click(function(){
+    croppieContainer.hide()
+    $("#choose-image-button").show()
+})
+
+// $("#upload-header-modal").show()
+
+var croppieContainer = $(".croppie-area").croppie({
+    viewport:{
+        width: 180,
+        height: 180
+    },
+    boundary: {
+        height: 300
+    }
+})
+
+$("#raw-image").change(function(){
+    let rawImage = this.files[0]
+
+    let reader = new FileReader()
+
+    reader.onload = function(e){
+        croppieContainer.croppie("bind",{
+            url: e.target.result,
+        })
+
+        $("#choose-image-button").hide()
+        croppieContainer.show()
+        $("#upload-edited-header").prop("disabled", false)
+    }
+    
+    reader.readAsDataURL(rawImage)
+})
+
+$("#upload-edited-header").click(function(){
+    croppieContainer.croppie('result', 'base64').then(function(headerBase64){
+
+        $.ajax({
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            url: "/cat/uploadHeader",
+            method: "POST",
+            data: {"new_header": headerBase64},
+            success: function(result){
+                console.log(result)
+
+                if(result == "1"){
+                    $("#upload-header-modal").fadeOut()
+                    $("#user-info-modal").hide()
+                    $("#user-banner").click()
+                }else{
+                    console.log("please try again")
+                }
+            }
+        })
+    })
+})

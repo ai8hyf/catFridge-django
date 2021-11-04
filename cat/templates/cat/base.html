@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'cat/css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'cat/css/footer.css' %}">
     <link rel="stylesheet" href="{% static 'cat/css/modal.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {% block css %}
     {% endblock css %}
@@ -40,7 +41,7 @@
         <span><a href="https://paypal.me/YifeiHu?locale.x=en_US">Donate $$$</a></span>
     </footer>
 
-    <div class="modal" id="user-info-modal">
+    <div class="modal modal-dismissable" id="user-info-modal">
 
         <div class="modal-body">
             <div class="modal-header">
@@ -65,10 +66,32 @@
         </div>
     </div>
 
+    <div class="modal" id="upload-header-modal">
+
+        <div class="modal-body">
+            <div class="modal-header">
+                Update Header <span class="close-modal-button" data-close="#upload-header-modal"><i class="fas fa-times"></i></span>
+            </div>
+
+            <div class="modal-content">
+                <label id="choose-image-button" for="raw-image"><i class="far fa-image fa-4x"></i><br><br><strong>click to choose an image</strong></label>
+                <input type="file" id="raw-image" hidden>
+
+                <div class="croppie-area"></div>
+            </div>
+
+            <div class="modal-controls">
+                <button class="btn btn-cancel" id="clear-header-editor">CLEAR <i class="fas fa-redo"></i></button>
+                <button class="btn btn-submit" id="upload-edited-header" disabled>UPLOAD <i class="fas fa-upload"></i></button>
+            </div>
+        </div>
+    </div>
+
     {% block modal %}
     {% endblock modal %}
 
     <script src="{% static 'cat/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js" integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         var userName = $("#user-banner>a").text()
     </script>

@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -11,6 +12,9 @@ from functools import lru_cache
 from .serializers import *
 import requests as rq
 from ipware import get_client_ip
+import base64
+from django.core.files.base import ContentFile
+from datetime import datetime
 
 
 
@@ -52,10 +56,7 @@ def getLocationForIP(incoming_ip):
 
 
 def getExtraUserInfo(user_id):
-
     currentUser = User.objects.get(id = user_id)
-    # extraUser = {}
-    # extraUser['exist'] = False
     extraUser, created = User_Extra.objects.get_or_create(user = currentUser, defaults={
         'user': currentUser,
         "about": "",
@@ -65,6 +66,29 @@ def getExtraUserInfo(user_id):
     extraUser = UserExtraSerializer(extraUser, many = False)
 
     return extraUser
+
+@login_required(login_url='/cat/login')
+def uploadHeader(request):
+    extraUser = User_Extra.objects.get(user = request.user)
+
+    oldImage = ""
+    if bool(extraUser.header) == True:
+        oldImage = extraUser.header.path
+
+    imageData = request.POST['new_header']
+    format, imgstr = imageData.split(';base64,')
+    ext = format.split('/')[-1]
+
+    imageFile = ContentFile(base64.b64decode(imgstr)) 
+    fileName = request.user.username + str(datetime.utcnow()) + "." + ext
+
+    extraUser.header.save(fileName, imageFile, save=True)
+
+    if oldImage != "":
+        os.remove(oldImage)
+
+    return HttpResponse("1")
+    
 
 
 @login_required(login_url='/cat/login')

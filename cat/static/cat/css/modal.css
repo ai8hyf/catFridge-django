@@ -161,10 +161,18 @@ a.btn{
 }
 
 #user-info-header{
-    display: block;
+    background-image: url("../img/upload-icon.png");
     border: 3px solid black;
     height: 80px;
     width: 80px;
+    display: block;
+    transition: all .3s;
+}
+
+#user-info-header:hover{
+    opacity: .5;
+    transition: all .3s;
+    border: 3px solid orange;
 }
 
 .cat-stats-edit{
@@ -174,6 +182,29 @@ a.btn{
     outline: none;
     font-size: 100%;
     padding-left: 5px;
+}
+
+#choose-image-button{
+    display: block;
+    padding: 40px 20px;
+    border: 3px dashed black;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+#choose-image-button:hover{
+    background-color: rgb(152, 240, 255);
+    transition: all .3s;
+}
+
+.croppie-area{
+    display: none;
+    box-sizing: border-box;
+}
+
+#upload-header-modal{
+    background-color: white;
 }
 
 @media screen and (max-width: 1200px){

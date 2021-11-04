@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.files.storage import FileSystemStorage
-
-fs = FileSystemStorage(location='/media/photos')
 
 class IP_Location(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
@@ -19,7 +16,7 @@ class User_Extra(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_Extra_FK', primary_key=True)
     about = models.CharField(max_length=200, blank=True, null=True)
     birthdate = models.DateField(blank=True)
-    header = models.ImageField(storage=fs)
+    header = models.FileField(upload_to="cat/headers/")
 
     def __str__(self):
         return str(self.user.id)+" "+self.user.username

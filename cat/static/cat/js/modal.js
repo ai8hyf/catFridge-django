@@ -3,11 +3,11 @@ $(".close-modal-button").click(function(){
     $(modal_id).fadeOut()
 })
 
-$(".modal").click(function(e){
+$(".modal-dismissable").click(function(e){
     let modal_id = $(this).attr("id")
     $("#"+modal_id).fadeOut()
 })
 
-$(".modal>div").click(function(e){
+$(".modal-dismissable>div").click(function(e){
     e.stopPropagation()
 })
