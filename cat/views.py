@@ -59,7 +59,7 @@ def getExtraUserInfo(user_id):
     currentUser = User.objects.get(id = user_id)
     extraUser, created = User_Extra.objects.get_or_create(user = currentUser, defaults={
         'user': currentUser,
-        "about": "",
+        "about": "Nothing to tell...",
         "birthdate": "1970-01-01",
     })
 
@@ -69,25 +69,30 @@ def getExtraUserInfo(user_id):
 
 @login_required(login_url='/cat/login')
 def uploadHeader(request):
-    extraUser = User_Extra.objects.get(user = request.user)
 
-    oldImage = ""
-    if bool(extraUser.header) == True:
-        oldImage = extraUser.header.path
+    if request.is_ajax() and request.method == "POST":
 
-    imageData = request.POST['new_header']
-    format, imgstr = imageData.split(';base64,')
-    ext = format.split('/')[-1]
+        extraUser = User_Extra.objects.get(user = request.user)
 
-    imageFile = ContentFile(base64.b64decode(imgstr)) 
-    fileName = request.user.username + str(datetime.utcnow()) + "." + ext
+        oldImage = ""
+        if bool(extraUser.header) == True:
+            oldImage = extraUser.header.path
 
-    extraUser.header.save(fileName, imageFile, save=True)
+        imageData = request.POST['new_header']
+        format, imgstr = imageData.split(';base64,')
+        ext = format.split('/')[-1]
 
-    if oldImage != "":
-        os.remove(oldImage)
+        imageFile = ContentFile(base64.b64decode(imgstr)) 
+        fileName = request.user.username + str(datetime.utcnow()) + "." + ext
 
-    return HttpResponse("1")
+        extraUser.header.save(fileName, imageFile, save=True)
+
+        if oldImage != "":
+            os.remove(oldImage)
+
+        return HttpResponse("1")
+    
+    return HttpResponse("0")
     
 
 
@@ -206,18 +211,18 @@ def search(request):
     
     return render(request, 'cat/search.html', context)
 
+# @lru_cache(maxsize = 128)
+# for such fast changing content, using LRU cache may not be very appropriate
 
-@lru_cache(maxsize = 128)
 def queryKeywordFromDB(keyword, type):
-
-    # I plan to add more magic to the search function in the future
 
     try:
         ifExist = True
         if type == 'cat':
             res = Cat.objects.get(id = int(keyword))
         else:
-            res = User.objects.get(username = keyword)
+            user = User.objects.get(username = keyword)
+            res = User_Extra.objects.get(user = user)
     except:
         res = None
         ifExist = False
@@ -246,8 +251,32 @@ def updateCatDesc(request):
     
     return HttpResponse("3") # other issues
 
+@login_required(login_url='/cat/login')
+def updateUserAbout(request):
+    if request.is_ajax() and request.method == "POST":
+
+        extraUser = User_Extra.objects.get(user = request.user)
+        newAbout = request.POST['new-info']
+        extraUser.about = newAbout
+        extraUser.save()
+
+        return HttpResponse("1")
+    
+    return HttpResponse("0")
 
 
+@login_required(login_url='/cat/login')
+def updateUserBirthday(request):
+    if request.is_ajax() and request.method == "POST":
+    
+        extraUser = User_Extra.objects.get(user = request.user)
+        newBirthday = request.POST['new-info']
+        extraUser.birthdate = newBirthday
+        extraUser.save()
+
+        return HttpResponse("1")
+    
+    return HttpResponse("0")
 
 @login_required(login_url='/cat/login')
 def activity(request):
@@ -298,6 +327,12 @@ def register(request):
         # create user
         user = User.objects.create_user(username, email, password)
         user.save()
+
+        User_Extra.objects.create({
+            'user': user,
+            "about": "Nothing to tell...",
+            "birthdate": "1970-01-01",
+        })
         
         # login the new user and redirect to index
         auth.login(request, user)

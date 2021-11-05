@@ -13,6 +13,8 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('fridge/updateCatDesc', views.updateCatDesc, name='updateCatDesc'),
     path('uploadHeader', views.uploadHeader, name='uploadHeader'),
+    path('updateUserAbout', views.updateUserAbout, name='updateUserAbout'),
+    path('updateUserBirthday', views.updateUserBirthday, name='updateUserBirthday'),
     path('getUserDetail', views.getUserDetail, name='getUserDetail'),
 ]
 

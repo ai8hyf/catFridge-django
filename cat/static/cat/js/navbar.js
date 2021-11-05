@@ -31,8 +31,10 @@ $("#user-banner").click(function(e){
             }
 
             $("#user-info-about").val(result['user_info']['about'])
+            $("#user-info-about").data("origin", result['user_info']['about'])
+            
             $("#user-info-birthday").val(result['user_info']['birthdate'])
-
+            $("#user-info-birthday").data("origin", result['user_info']['birthdate'])
 
             $("#user-info-ip").text(result['ip_info']['ip'])
             if(result['ip_info']['region_name']!=null){
@@ -58,6 +60,56 @@ $("#user-info-header").click(function(){
     $("#upload-edited-header").prop("disabled", true)
     $("#upload-header-modal").fadeIn()
 })
+
+$("#user-info-about").blur(function(){
+
+    let originAbout = $(this).data("origin")
+    let newAbout = $(this).val()
+
+    if(originAbout.trim() === newAbout.trim()){
+        console.log("nothing has changed")
+        return 0
+    }
+
+    ajaxOnBlur("/cat/updateUserAbout", newAbout, "#user-info-about")
+
+})
+
+$("#user-info-birthday").blur(function(){
+
+    let originBirthday = $(this).data("origin")
+    let newBirthday = $(this).val()
+
+    if(originBirthday.trim() === newBirthday.trim()){
+        console.log("nothing has changed")
+        return 0
+    }
+
+    ajaxOnBlur("/cat/updateUserBirthday", newBirthday, "#user-info-birthday")
+
+})
+
+function ajaxOnBlur(postURL, postInfo, selector){
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: postURL,
+        method: "POST",
+        data: {"new-info": postInfo},
+        success: function(res){
+            if(res == "1"){
+                $(selector).css({"border-color": "green", "color": "green"})
+            }else{
+                $(selector).css({"border-color": "red", "color": "red"})
+            }
+
+            setInterval(function(){
+                $(selector).css({"border-color": "black", "color": "black"})
+            }, 1500)
+        }
+    })
+}
 
 $("#clear-header-editor").click(function(){
     croppieContainer.hide()
