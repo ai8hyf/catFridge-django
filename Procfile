@@ -1,0 +1,1 @@
+web: gunicorn cnit581.wsgi
