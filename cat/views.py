@@ -328,11 +328,13 @@ def register(request):
         user = User.objects.create_user(username, email, password)
         user.save()
 
-        User_Extra.objects.create({
-            'user': user,
-            "about": "Nothing to tell...",
-            "birthdate": "1970-01-01",
-        })
+        extraUserInfo = User_Extra(
+            user = user,
+            about = "Nothing to tell...",
+            birthdate = "1970-01-01"
+        )
+
+        extraUserInfo.save()
         
         # login the new user and redirect to index
         auth.login(request, user)
