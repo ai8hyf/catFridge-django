@@ -88,6 +88,9 @@ function draw(container_id, cat_obj) {
 
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, c_width, c_height);
+
+    ctx.fillStyle = "white"
+    drawRoundRect(ctx, 0, 0, c_width, c_height, 0, true, false)
     
     // ears
     ctx.lineWidth = 2;
@@ -123,7 +126,17 @@ function draw(container_id, cat_obj) {
     ctx.strokeStyle = "black"
     ctx.fillStyle = body_color
     drawBody(ctx, neck_start_x, neck_start_y + neck_length, neck_width, body_margin_left, neck_start_y + neck_length + body_height, body_width, body_arc)
-    
+}
+
+function exportCatImage(container_id){
+    var image = document.getElementById(container_id).toDataURL("image/png").replace("image/png", "image/octet-stream");
+
+    var a = document.createElement('a');
+    a.style.display = "none";
+    a.href = image;
+    a.download = "cat.png";
+    document.body.appendChild(a);
+    a.click();
 }
 
 function drawEye(ctx, x, y, width, height, r_width, r_height, eye_color, retina_color){

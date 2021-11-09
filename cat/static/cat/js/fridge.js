@@ -135,8 +135,6 @@ function generateCat(){
     }
 
     draw("cat-preview-canvas", catJSON)
-
-    // jsonToCat(".cat-preview", catJSON)
 }
 
 function jsonToCat(containerSelector, catJSON){
