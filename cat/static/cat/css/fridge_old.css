@@ -164,8 +164,81 @@ h1{
     font-family: Andale Mono, monospace;
 }
 
+.cat-graph{
+    height: 350px;
+    padding: 20px 0;
+}
+
+.cat-all{
+    text-align: center;
+    padding: 20px 0;
+}
+
+.cat-head{
+    margin: 0 auto;
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    line-height: 90px;
+    font-size: 90px;
+    padding: 5px;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 50px 25px #0ff;
+    z-index: 9;
+}
+
+.cat-neck{
+    margin: 0 auto;
+    display: block;
+    width: 20px;
+    height: 10px;
+    background-color: black;
+    margin-top: -2px;
+    position: relative;
+    z-index: 10;
+}
+
+.cat-body{
+    margin: 0 auto;
+    display: block;
+    width: 150px;
+    height: 200px;
+    border-radius: 50%;
+    border-bottom-left-radius: 25%;
+    border-bottom-right-radius: 25%;
+    background-color: black;
+    color: white;
+    line-height: 200px;
+    margin-top: -5px;
+    border: 5px solid black;
+    z-index: 10;
+    position: relative;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+.cat-tail{
+    margin: 0 auto;
+    display: block;
+    width: 200px;
+    height: 5px;
+    border-radius: 10px;
+    background-color: black;
+    border: 5px solid black;
+    margin-left: 50%;
+    margin-top: -15px;
+    position: relative;
+    z-index: 9;
+    /* transform-origin: top left;
+    transform: rotate(45deg); */
+}
+
 .cat-preview, .cat-param{
     box-sizing: border-box;
+    padding: 0 20px;
     width: 50%;
     display: block;
     height: calc(100vh - 255px);
@@ -174,35 +247,20 @@ h1{
 }
 
 .cat-param{
-    padding: 0 20px;
     /* the bottom of the div will become blurred */
     -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
     padding-bottom: 10px;
 }
 
-.cat-preview{
-    padding: 20px;
-    border: 3px solid black;
-    overflow-y: hidden;
-}
 
-#cat-preview-canvas{
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    /* background-color: rgb(224, 224, 224); */
+.cat-preview{
+    border: 3px solid black;
 }
 
 .cat-param>h2{
     margin-top: 5px;
     margin-bottom: 20px;
-}
-
-hr.category-divider{
-    border: 1px dashed grey;
-    margin-top: 0;
-    margin-bottom: 15px;
 }
 
 .param-input>label{

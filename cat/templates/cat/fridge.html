@@ -90,16 +90,7 @@
 
             <div class="modal-content">
                 <div class="cat-preview">
-                    <div class="cat-all">
-                        <div class="cat-head" id="preview-head">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                        <div class="cat-neck" id="preview-neck"></div>
-                        <div class="cat-body" id="preview-body">
-                            
-                        </div>
-                        <div class="cat-tail" id="preview-tail"></div>
-                    </div>
+                    <canvas id="cat-preview-canvas"></canvas>
                 </div>
 
                 <div class="cat-param">
@@ -116,122 +107,155 @@
                         <input type="text" placeholder="Tom loves Jerry." id="cat-motto">
                     </div>
 
+                    <hr class="category-divider">
+
                     <div class="param-input">
-                        <label for="">Head Size</label>
-                        <input type="range" min="30" max="300" value="100" id="head-size" onchange="generateCat()">
+                        <label for="head_width">Head Width</label>
+                        <input type="range" min="50" max="300" value="120" id="head_width" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Face Color</label>
-                        <input type="color" value="#ffffff" id="face-color" onchange="generateCat()">
+                        <label for="head_height">Head Height</label>
+                        <input type="range" min="50" max="200" value="80" id="head_height" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Head Glow</label>
-                        <input type="color" value="#e8ff73" id="head-glow-color" onchange="generateCat()">
+                        <label for="head_height">Head Arc</label>
+                        <input type="range" min="0" max="100" value="80" id="head_arc" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Head Align</label>
-                        <select id="head-align" onchange="generateCat()">
-                            <option value="left">Left</option>
-                            <option value="center" selected="selected">Center</option>
-                            <option value="right">Right</option>
-                        </select>
+                        <label for="head_color">Face Color</label>
+                        <input type="color" value="#000000" id="head_color" onchange="generateCat()">
+                    </div>
+
+                    <hr class="category-divider">
+
+                    <div class="param-input">
+                        <label for="ear_width">Ear Width</label>
+                        <input type="range" min="0" max="50" value="20" id="ear_width" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Neck Length</label>
-                        <input type="range" min="10" max="200" value="10" id="neck-length"onchange="generateCat()">
+                        <label for="ear_height">Ear Height</label>
+                        <input type="range" min="0" max="100" value="20" id="ear_height" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Neck Width</label>
-                        <input type="range" min="0" max="50" value="10" id="neck-width"onchange="generateCat()">
+                        <label for="ear_direction">Ear Angle</label>
+                        <input type="range" min="0" max="100" value="20" id="ear_direction" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Body Height</label>
-                        <input type="range" min="40" max="300" value="200" id="body-height"onchange="generateCat()">
+                        <label for="ear_offset">Ear Align</label>
+                        <input type="range" min="0" max="100" value="30" id="ear_offset" onchange="generateCat()">
                     </div>
 
                     <div class="param-input">
-                        <label for="">Body Wdith</label>
-                        <input type="range" min="20" max="300" value="150" id="body-width" onchange="generateCat()">
+                        <label for="ear_color">Ear Color</label>
+                        <input type="color" value="#a1a1a1" id="ear_color" onchange="generateCat()">
                     </div>
+
+                    <hr class="category-divider">
+
+                    <div class="param-input">
+                        <label for="eye_height">Eye Height</label>
+                        <input type="range" min="0" max="50" value="30" id="eye_height" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="eye_width">Eye Width</label>
+                        <input type="range" min="0" max="50" value="40" id="eye_width" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="eye_distance">Eye Between</label>
+                        <input type="range" min="0" max="100" value="40" id="eye_distance" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="eye_margin_top">Eye Align</label>
+                        <input type="range" min="0" max="100" value="50" id="eye_margin_top" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="eye_color">Eye Color</label>
+                        <input type="color" value="#ffffff" id="eye_color" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="retina_height">Iris Height</label>
+                        <input type="range" min="0" max="50" value="45" id="retina_height" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="retina_width">Iris Width</label>
+                        <input type="range" min="0" max="50" value="15" id="retina_width" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="retina_color">Iris Color</label>
+                        <input type="color" value="#000000" id="retina_color" onchange="generateCat()">
+                    </div>
+
+                    <hr class="category-divider">
+
+                    <div class="param-input">
+                        <label for="neck_length">Neck Length</label>
+                        <input type="range" min="0" max="200" value="10" id="neck_length" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="neck_width">Neck Width</label>
+                        <input type="range" min="1" max="100" value="10" id="neck_width" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="neck_color">Neck Color</label>
+                        <input type="color" value="#ffffff" id="neck_color" onchange="generateCat()">
+                    </div>
+
+
+                    <hr class="category-divider">
+
+                    <div class="param-input">
+                        <label for="body_width">Body Width</label>
+                        <input type="range" min="40" max="300" value="80" id="body_width" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="body_height">Body Height</label>
+                        <input type="range" min="40" max="300" value="120" id="body_height" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="body_arc">Body Arc</label>
+                        <input type="range" min="1" max="100" value="100" id="body_arc" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="body_color">Body Color</label>
+                        <input type="color" value="#a1a1a1" id="body_color" onchange="generateCat()">
+                    </div>
+
+                    <hr class="category-divider">
+
+                    <div class="param-input">
+                        <label for="tail_height">Tail Length</label>
+                        <input type="range" min="20" max="120" value="80" id="tail_height" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="tail_stroke">Tail Width</label>
+                        <input type="range" min="1" max="10" value="4" id="tail_stroke" onchange="generateCat()">
+                    </div>
+
+                    <div class="param-input">
+                        <label for="tail_color">Tail Color</label>
+                        <input type="color" value="#000000" id="tail_color" onchange="generateCat()">
+                    </div>
+
                     
-                    <div class="param-input">
-                        <label for="">Body Color</label>
-                        <input type="color" value="#ff0000" id="body-color" onchange="generateCat()">
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Body TL Arc</label>
-                        <select id="body-TL-radius" onchange="generateCat()">
-                            <option value="0">0%</option>
-                            <option value="10%">10%</option>
-                            <option value="25%">25%</option>
-                            <option value="50%" selected="selected">50%</option>
-                            <option value="75%">75%</option>
-                            <option value="100%">100%</option>
-                        </select>
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Body TR Arc</label>
-                        <select id="body-TR-radius" onchange="generateCat()">
-                            <option value="0">0%</option>
-                            <option value="10%">10%</option>
-                            <option value="25%">25%</option>
-                            <option value="50%" selected="selected">50%</option>
-                            <option value="75%">75%</option>
-                            <option value="100%">100%</option>
-                        </select>
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Body BL Arc</label>
-                        <select id="body-BL-radius" onchange="generateCat()">
-                            <option value="0">0%</option>
-                            <option value="10%">10%</option>
-                            <option value="25%" selected="selected">25%</option>
-                            <option value="50%">50%</option>
-                            <option value="75%">75%</option>
-                            <option value="100%">100%</option>
-                        </select>
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Body BR Arc</label>
-                        <select id="body-BR-radius" onchange="generateCat()">
-                            <option value="0">0%</option>
-                            <option value="10%">10%</option>
-                            <option value="25%" selected="selected">25%</option>
-                            <option value="50%">50%</option>
-                            <option value="75%">75%</option>
-                            <option value="100%">100%</option>
-                        </select>
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Body Tatoo</label>
-                        <input type="text" maxlength="7" id="body-tatoo" onchange="generateCat()" value="Supreme">
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Tatoo Color</label>
-                        <input type="color" value="#ffffff" id="tatoo-color" onchange="generateCat()">
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Tail Length</label>
-                        <input type="range" min="0" max="200" value="150" id="tail-length" onchange="generateCat()">
-                    </div>
-
-                    <div class="param-input">
-                        <label for="">Tail Color</label>
-                        <input type="color" value="#000000" id="tail-color" onchange="generateCat()">
-                    </div>
                 </div>
             </div>
 
@@ -244,5 +268,6 @@
 {% endblock modal %}
 
 {% block js %}
+<script src="{% static 'cat/js/catBuilder.js' %}"></script>
 <script src="{% static 'cat/js/fridge.js' %}"></script>
 {% endblock js %}

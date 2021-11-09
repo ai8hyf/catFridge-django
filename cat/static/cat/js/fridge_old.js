@@ -95,7 +95,7 @@ function showConfigurator(){
     $("#adopt-modal").fadeIn()
     generateCat()
 }
-showConfigurator()
+// showConfigurator()
 
 window.addEventListener('resize', function(){
     centerElement(".cat-preview>.cat-all", ".cat-preview")
@@ -103,40 +103,29 @@ window.addEventListener('resize', function(){
 
 function generateCat(){
 
-    var catJSON = {
-        "head_width": parseInt($("#head_width").val()),
-        "head_height": parseInt($("#head_height").val()), 
-        "head_arc": parseFloat($("#head_arc").val()) / 100,
-        "ear_width": parseFloat($("#ear_width").val()) / 100,
-        "ear_height": parseInt($("#ear_height").val()), 
-        "ear_direction": parseFloat($("#ear_direction").val()) / 100,
-        "ear_offset": parseFloat($("#ear_offset").val()) / 100,
-        "eye_height": parseFloat($("#eye_height").val()) / 100, // max: 1 
-        "eye_width": parseFloat($("#eye_width").val()) / 100, // max: 0.5
-        "eye_distance": parseFloat($("#eye_distance").val()) / 100, // max: 1
-        "eye_margin_top": parseFloat($("#eye_margin_top").val()) / 100, // max: 1
-        "retina_width": parseFloat($("#retina_width").val()) / 100,    // max: 0.5
-        "retina_height": parseFloat($("#retina_height").val()) / 100,   // max: 0.5
-        "neck_length": parseFloat($("#neck_length").val()) / 100, // max:2
-        "neck_width": parseFloat($("#neck_width").val()) / 100, // max: 1
-        "body_height": parseInt($("#body_height").val()),
-        "body_width": parseInt($("#body_width").val()),
-        "body_arc": parseFloat($("#body_arc").val()) / 100,
-        "tail_height": parseInt($("#tail_height").val()),
-        "tail_width": 20,
-        "tail_stroke": parseInt($("#tail_stroke").val()),
-        "ear_color": $("#ear_color").val(),
-        "head_color": $("#head_color").val(),
-        "eye_color": $("#eye_color").val(),
-        "retina_color": $("#retina_color").val(),
-        "neck_color": $("#neck_color").val(),
-        "body_color": $("#body_color").val(),
-        "tail_color": $("#tail_color").val(),
+    let catJSON = {
+        catName: $("#cat-name").val(),
+        catMotto: $("#cat-motto").val(),
+        headSize: $("#head-size").val(),
+        neckLength: $("#neck-length").val(),
+        neckWidth: $("#neck-width").val(),
+        bodyHeight: $("#body-height").val(),
+        bodyWidth: $("#body-width").val(),
+        tailLength: $("#tail-length").val(),
+        faceColor: $("#face-color").val(),
+        bodyColor: $("#body-color").val(),
+        tailColor: $("#tail-color").val(),
+        headGlowColor: $("#head-glow-color").val(),
+        bodyTLRadius: $("#body-TL-radius").val(),
+        bodyTRRadius: $("#body-TR-radius").val(),
+        bodyBLRadius: $("#body-BL-radius").val(),
+        bodyBRRadius: $("#body-BR-radius").val(),
+        bodyTatoo: $("#body-tatoo").val(),
+        tatooColor: $("#tatoo-color").val(),
+        headAlign: $("#head-align").val()
     }
 
-    draw("cat-preview-canvas", catJSON)
-
-    // jsonToCat(".cat-preview", catJSON)
+    jsonToCat(".cat-preview", catJSON)
 }
 
 function jsonToCat(containerSelector, catJSON){
