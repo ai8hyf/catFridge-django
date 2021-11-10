@@ -8,9 +8,9 @@ function draw(container_id, cat_obj) {
     let c_height = canvas.height
 
     let total_height = cat_obj.head_height + cat_obj.ear_height + cat_obj.body_height + cat_obj.neck_length*cat_obj.head_height
-    let total_width = Math.max(cat_obj.head_width, cat_obj.body_width+cat_obj.tail_width*2+5)
+    let total_width = Math.max(cat_obj.head_width, cat_obj.body_width+cat_obj.tail_width*2+5) // the +5 is to avoid tail overlaping with body
 
-    let display_ratio = Math.min((c_height-5)/total_height, (c_width-5)/total_width) // the -5 deals with some rounding issues
+    let display_ratio = Math.min((c_height-10)/total_height, (c_width-10)/total_width) // the -5 deals with some rounding issues and edge cases
 
     let head_width = cat_obj.head_width * display_ratio
     let head_height = cat_obj.head_height * display_ratio
@@ -89,8 +89,13 @@ function draw(container_id, cat_obj) {
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, c_width, c_height);
 
+    // add a background
     ctx.fillStyle = "white"
     drawRoundRect(ctx, 0, 0, c_width, c_height, 0, true, false)
+
+    // ctx.lineWidth = 5
+    // ctx.strokeStyle = "black"
+    // drawRoundRect(ctx, 0, 0, c_width, c_height, 0, false, true)
     
     // ears
     ctx.lineWidth = 2;

@@ -69,6 +69,10 @@ def getExtraUserInfo(user_id):
 
 @login_required(login_url='/cat/login')
 def uploadHeader(request):
+    
+    # -----------------------------------------------
+    # this does not work on Heroku because I am poor
+    # -----------------------------------------------
 
     if request.is_ajax() and request.method == "POST":
 
@@ -87,6 +91,7 @@ def uploadHeader(request):
 
         extraUser.header.save(fileName, imageFile, save=True)
 
+        # not very elegant.
         if oldImage != "":
             os.remove(oldImage)
 
@@ -108,11 +113,6 @@ def fridge(request):
     context = {'username': request.user.username, 'email': request.user.email}
 
     if request.method == 'GET':
-
-        # extraUserInfo = getExtraUserInfo(request.user.id)
-        # print(extraUserInfo['exist'])
-        # print(extraUserInfo)
-
         return render(request, 'cat/fridge.html', context)
     else:
         # to demonstrate the AJAX concept 
@@ -135,7 +135,7 @@ def getUserDetail(request):
 
         ip, is_routable = get_client_ip(request)
 
-        # ideally, we should display the last login IP. The following stuff is only for fulfilling the requirements of project 4. (No hard feelings!)
+        # ideally, we should display the last login IP. The following stuff is only for fulfilling the requirements of project 4. (No hard feelings tho)
 
         RES = {}
         RES['ip_info'] = IPLocationSerializer(getLocationForIP(str(ip)), many=False).data
@@ -147,34 +147,9 @@ def getUserDetail(request):
 def addCat(request):
     if request.method == "POST" and request.is_ajax():
 
-        oneCat = request.POST
-
         newCat = Cat(
-            owner = User.objects.get(id = request.user.id),
-            # borrower = "",
-            catName = oneCat['catName'],
-            catDesc = oneCat['catMotto'],
-            catHealth = 50,
-            catHappiness = 50,
-            catWeight = 50,
-            catAge = 0, # in minutes
-            headSize = oneCat['headSize'],
-            neckLength = oneCat['neckLength'],
-            neckWidth = oneCat['neckWidth'],
-            bodyHeight = oneCat['bodyHeight'],
-            bodyWidth = oneCat['bodyWidth'],
-            tailLength = oneCat['tailLength'],
-            faceColor = oneCat['faceColor'],
-            bodyColor = oneCat['bodyColor'],
-            tailColor = oneCat['tailColor'],
-            headGlowColor = oneCat['headGlowColor'],
-            bodyTLRadius = oneCat['bodyTLRadius'],
-            bodyTRRadius = oneCat['bodyTRRadius'],
-            bodyBLRadius = oneCat['bodyBLRadius'],
-            bodyBRRadius = oneCat['bodyBRRadius'],
-            bodyTatoo = oneCat['bodyTatoo'],
-            tatooColor = oneCat['tatooColor'],
-            headAlign = oneCat['headAlign']
+            **request.POST.dict(), 
+            owner = User.objects.get(id = request.user.id)
         )
 
         newCat.save()
@@ -185,6 +160,8 @@ def addCat(request):
 @login_required(login_url='/cat/login')
 def search(request):
 
+    # the search module needs to be completely redo width Ajax
+ 
     lastSearchOption = 'cat'
     isSearch = False
     searchResult = {}
@@ -213,7 +190,6 @@ def search(request):
 
 # @lru_cache(maxsize = 128)
 # for such fast changing content, using LRU cache may not be very appropriate
-
 def queryKeywordFromDB(keyword, type):
 
     try:
