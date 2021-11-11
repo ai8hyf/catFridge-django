@@ -14,13 +14,9 @@
 <div class="container">
     <h1 class="page-title">Find <i class="fas fa-cat"></i> or <i class="fas fa-user-friends"></i></h1>
 
-    <form method="GET">
-
-        {% csrf_token %}
-
         <div class="input-group">
             <input id="search-content" name="keyword" type="text" placeholder="who or what?" required>
-            <button type="submit"><i class="fas fa-search"></i></button>
+            <button id="search-button"><i class="fas fa-search"></i></button>
         </div>
     
         <div class="radio-group">
@@ -42,94 +38,18 @@
                 <input type="radio" id="option-user" name="search-option" value="user">
             {% endif %}
             <label for="option-user">User Name</label>
-        </div>
-    </form>
-    
-    {% if isSearch %}
-
-        <div class="cat-found">
-
-        {% if searchResult.isCat %}
-
-            {% if searchResult.Exist %}
-                <h3>Found:</h3>
-                <div class="cat-card">
-        
-                    <div class="cat-card-left">
-                        <i class="fas fa-vr-cardboard"></i>
-                    </div>
-        
-                    <div class="cat-card-right">
-                        <div class="cat-id">
-                            <span>ID</span>{{ searchResult.content.id }}
-                        </div>
-        
-                        <div class="cat-name">
-                            <span>NAME</span>{{ searchResult.content.catName }}
-                        </div>
-        
-                        <div class="cat-owner">
-                            <span>OWNER</span>{{ searchResult.content.owner }}
-                        </div>
-        
-                        <div class="cat-age">
-                            <span>AGE</span>{{ searchResult.content.catAge }}
-                        </div>
-        
-                        <div class="cat-happiness">
-                            <span>HAPPY</span>{{ searchResult.content.catHappiness }}
-                        </div>
-        
-                        <div class="cat-wisdom">
-                            <span>HEALTH</span>{{ searchResult.content.catHealth }}
-                        </div>
-                    </div>
-        
-                </div>
-
-            {% else %}
-                <h3>Nothing...</h3>
-            {% endif %}
-
-        {% else %}
-            {% if searchResult.Exist %}
-                <h3>Found:</h3>
-                <div class="cat-card">
-        
-                    <div class="cat-card-left">
-                        <i class="fas fa-user"></i>
-                    </div>
-        
-                    <div class="cat-card-right">
-        
-                        <div class="cat-name">
-                            <span>NAME</span>{{ searchResult.content.user }}
-                        </div>
-        
-                        <div class="cat-name">
-                            <span>ABOUT</span>{{ searchResult.content.about }}
-                        </div>
-
-                        <div class="cat-name">
-                            <span>B-DAY</span>{{ searchResult.content.birthdate }}
-                        </div>
-
-                    </div>
-        
-                </div>
-            {% else %}
-                <h3>Nothing...</h3>
-            {% endif %}
-        {% endif %}
 
         </div>
 
-    {% endif %}
+        <div id="search-result">
+
+        </div>
 
 </div>
 
 {% endblock container %}
 
 {% block js %}
+    <script src="{% static 'cat/js/catBuilder.js' %}"></script>
     <script src="{% static 'cat/js/search.js' %}"></script>
 {% endblock js %}

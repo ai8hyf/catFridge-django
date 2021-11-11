@@ -168,25 +168,34 @@ def search(request):
 
     if 'lastSearchOption' in request.session:
         lastSearchOption = request.session['lastSearchOption']
-    
-    if request.method == "GET" and 'keyword' in request.GET and request.GET['keyword'] != '':
-        keyword = request.GET['keyword'].strip()
 
-        searchResult['content'], searchResult["Exist"], searchResult['isCat'] = queryKeywordFromDB(keyword, request.GET['search-option'])
+    if request.is_ajax() and request.method == "POST":
+        searchResult['content'], searchResult["Exist"], searchResult['isCat'] = queryKeywordFromDB(request.POST['keyword'].strip(), request.POST['search-option'])
 
-        isSearch = True
-        request.session['lastSearchOption'] = request.GET['search-option']
-        lastSearchOption = request.session['lastSearchOption']
+        request.session['lastSearchOption'] = request.POST['search-option']
+
+        return JsonResponse(searchResult, safe=False)
     
-    context = {
-        'username': request.user.username, 
-        'email': request.user.email, 
-        'isSearch': isSearch, 
-        'lastSearchOption': lastSearchOption, 
-        'searchResult': searchResult
-    }
+    else:
+        context = {
+            'username': request.user.username, 
+            'email': request.user.email, 
+            'lastSearchOption': lastSearchOption, 
+        }
     
-    return render(request, 'cat/search.html', context)
+        return render(request, 'cat/search.html', context)
+
+
+    # if request.method == "GET" and 'keyword' in request.GET and request.GET['keyword'] != '':
+    #     keyword = request.GET['keyword'].strip()
+
+    #     searchResult['content'], searchResult["Exist"], searchResult['isCat'] = queryKeywordFromDB(keyword, request.GET['search-option'])
+
+    #     isSearch = True
+    #     request.session['lastSearchOption'] = request.GET['search-option']
+    #     lastSearchOption = request.session['lastSearchOption']
+    
+    
 
 # @lru_cache(maxsize = 128)
 # for such fast changing content, using LRU cache may not be very appropriate
@@ -196,9 +205,11 @@ def queryKeywordFromDB(keyword, type):
         ifExist = True
         if type == 'cat':
             res = Cat.objects.get(id = int(keyword))
+            res = CatDetailSerializer(res, many=False).data
         else:
             user = User.objects.get(username = keyword)
             res = User_Extra.objects.get(user = user)
+            res = UserExtraSerializer(res, many=False).data
     except:
         res = None
         ifExist = False
