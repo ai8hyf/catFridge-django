@@ -6,7 +6,6 @@ $("#search-content").keypress(function(e) {
     }
   });
 
-searchKeyword("yifei", "user")
 
 function searchKeyword(keyword, searchOption){
     if(keyword == ""){
@@ -28,13 +27,19 @@ function searchKeyword(keyword, searchOption){
                 if(res['Exist']){
                     if(res['isCat']){
                         
-                        $("#search-result").append('<canvas class="cat-graph" id="cat-found"></canvas>')
+                        $("#search-result").append('<div class="cat-name">'+res['content']['catName']+'</div><canvas class="cat-graph" id="cat-found"></canvas>')
+
+                        let allowBorrow = true
+
+                        if(allowBorrow){
+                            $("#search-result").append('<div class="borrow-cat-button allow-borrow" onclick="borrowCat('+res['content']['id']+')">Borrow <i class="fas fa-people-carry"></i></div>')
+                        }
     
                         draw("cat-found", res['content'])
-                    }else{
-                        // let userInfo = "<i class='fas fa-user'></i> "+res['content']['user']['username']+ "<br>"
 
-                        $("#search-result").append("<div class='user-found'><img class='found-user-header' src="+res['content']['header']+" /><div class='found-user-name'><i class='fas fa-user'></i> "+res['content']['user']['username']+"</div><div class='found-user-about'><i class='fas fa-info-circle'></i> "+res['content']['about']+"</div></div>")
+                    }else{
+                        
+                        $("#search-result").append("<div class='user-found' onclick='goToUser("+res['content']['user']['id']+")'><img class='found-user-header' src="+res['content']['header']+" /><div class='found-user-name'><i class='fas fa-user'></i> "+res['content']['user']['username']+"</div><div class='found-user-about'>"+res['content']['about']+"</div></div>")
                     }
                 }else{
                     if(searchOption=="cat"){
@@ -47,8 +52,6 @@ function searchKeyword(keyword, searchOption){
                     $("#search-result").append("<div id='not-found'>"+msg+"</div>")
                 }
 
-                
-    
             }
         })
     }
@@ -60,3 +63,15 @@ $("#search-button").click(function(){
 
     searchKeyword(keyword, searchOption)
 })
+
+function goToUser(uid){
+    console.log(uid)
+}
+
+function borrowCat(cid){
+    console.log(cid)
+}
+
+// searchKeyword("yifei", "user")
+
+// searchKeyword("5", "cat")
