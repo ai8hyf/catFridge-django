@@ -128,6 +128,15 @@ def fridge(request):
 
                 return JsonResponse(serializer.data, safe=False)
 
+
+@login_required(login_url='/cat/login')
+def getAllCatFromUser(request):
+    if request.is_ajax():
+        catOwner = User.objects.get(id = request.POST['userID'])
+        catQuerySet = Cat.objects.all().filter(owner = catOwner)
+        serializer = CatDetailSerializer(catQuerySet, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 @login_required(login_url='/cat/login')
 def getUserDetail(request):
     if request.is_ajax():
@@ -208,8 +217,8 @@ def queryKeywordFromDB(keyword, type):
             res = CatDetailSerializer(res, many=False).data
         else:
             user = User.objects.get(username = keyword)
-            res = User_Extra.objects.get(user = user)
-            res = UserExtraSerializer(res, many=False).data
+            res = User_Extra.objects.filter(user = user)
+            res = UserExtraSerializer(res, many=True).data
     except:
         res = None
         ifExist = False

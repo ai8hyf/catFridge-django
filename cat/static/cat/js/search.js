@@ -1,11 +1,12 @@
+var foundUsers = {}
+
 $("#menu-search").addClass("active")
 
 $("#search-content").keypress(function(e) {
     if(e.which == 13) {
         $("#search-button").click()
     }
-  });
-
+});
 
 function searchKeyword(keyword, searchOption){
     if(keyword == ""){
@@ -38,8 +39,15 @@ function searchKeyword(keyword, searchOption){
                         draw("cat-found", res['content'])
 
                     }else{
+
+                        for(let i=0; i<res['content'].length; i++){
+                            let oneUser = res['content'][i]
+
+                            foundUsers[oneUser['user']['id']] = res['content'][i]
+
+                            $("#search-result").append("<div class='user-found' onclick='goToUser("+oneUser['user']['id']+")'><img class='found-user-header' src="+oneUser['header']+" /><div class='found-user-name'><i class='fas fa-user'></i> "+oneUser['user']['username']+"</div><div class='found-user-about'>"+oneUser['about']+"</div></div>")
+                        }
                         
-                        $("#search-result").append("<div class='user-found' onclick='goToUser("+res['content']['user']['id']+")'><img class='found-user-header' src="+res['content']['header']+" /><div class='found-user-name'><i class='fas fa-user'></i> "+res['content']['user']['username']+"</div><div class='found-user-about'>"+res['content']['about']+"</div></div>")
                     }
                 }else{
                     if(searchOption=="cat"){
@@ -65,13 +73,42 @@ $("#search-button").click(function(){
 })
 
 function goToUser(uid){
-    console.log(uid)
+
+    $(".cat-collection").html('')
+
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/getAllCatFromUser",
+        method: "POST",
+        data: {"userID": uid},
+        success: function(result){
+            
+            for(let i=0; i<result.length;i++){
+                $(".cat-collection").append('<canvas class="one-cat-collection" id="fu-cat-'+result[i]['id']+'"></canvas>')
+
+                draw("fu-cat-"+result[i]['id'], result[i])
+            }
+
+            $("#total-cats").text(result.length)
+
+        }
+    })
+    if(foundUsers[uid]['header']!=null){
+        $("#fu-modal-header").attr("src", foundUsers[uid]['header'])
+    }
+    
+    $("#fu-modal-name").text(foundUsers[uid]['user']['username'])
+    $("#fu-modal-about").text(foundUsers[uid]['about'])
+    $("#found-user-modal").show()
 }
 
 function borrowCat(cid){
-    console.log(cid)
+    
 }
 
 // searchKeyword("yifei", "user")
+
 
 // searchKeyword("5", "cat")

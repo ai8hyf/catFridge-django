@@ -21,6 +21,10 @@
     font-family: Andale Mono, monospace;
 }
 
+.modal-body-md{
+    width: calc(60% - 40px);
+}
+
 .modal-body-lg{
     width: calc(80% - 40px);
 }
@@ -210,6 +214,11 @@ a.btn{
     .modal-body{
         width: calc(60% - 40px);
     }
+
+    .modal-body-md{
+        width: calc(80% - 40px);
+    }
+
     .modal-body-lg{
         width: calc(100% - 40px);
     }
@@ -218,6 +227,10 @@ a.btn{
 @media screen and (max-width: 992px){
     .modal-body{
         width: calc(80% - 40px);
+    }
+
+    .modal-body-md{
+        width: calc(90% - 40px);
     }
 
     .modal-body-lg{

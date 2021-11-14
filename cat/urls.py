@@ -16,6 +16,7 @@ urlpatterns = [
     path('updateUserAbout', views.updateUserAbout, name='updateUserAbout'),
     path('updateUserBirthday', views.updateUserBirthday, name='updateUserBirthday'),
     path('getUserDetail', views.getUserDetail, name='getUserDetail'),
+    path('getAllCatFromUser', views.getAllCatFromUser, name='getAllCatFromUser'),
 ]
 
 if settings.DEBUG: 
