@@ -5,3 +5,5 @@ from .models import *
 admin.site.register(User_Extra)
 admin.site.register(Cat)
 admin.site.register(IP_Location)
+admin.site.register(Borrow_Request)
+admin.site.register(Subscription)

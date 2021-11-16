@@ -17,6 +17,9 @@ urlpatterns = [
     path('updateUserBirthday', views.updateUserBirthday, name='updateUserBirthday'),
     path('getUserDetail', views.getUserDetail, name='getUserDetail'),
     path('getAllCatFromUser', views.getAllCatFromUser, name='getAllCatFromUser'),
+    path('subscribe', views.subscribe, name='subscribe'),
+    path('unsubscribe', views.unsubscribe, name='unsubscribe'),
+    path('checkSubscription', views.checkSubscription, name='checkSubscription'),
 ]
 
 if settings.DEBUG: 

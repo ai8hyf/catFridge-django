@@ -2,6 +2,22 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
+class Subscription(models.Model):
+    target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target_FK')
+    followed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_FK')
+    followed_at = models.DateTimeField(default=now, editable=False)
+
+    def __str__(self):
+        return str(self.target.username)+" followed by "+self.followed_by.username
+
+class Borrow_Request(models.Model):
+    borrower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_borrower_FK')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_owner_FK')
+    target_cat = models.ForeignKey("Cat", on_delete=models.CASCADE, related_name='request_target_cat_FK')
+    request_at = models.DateTimeField(default=now, editable=False)
+    message = models.TextField(default="Hi, I want to borrow your cat:)")
+    status = models.IntegerField(default=0) # 0:pending  1:approved  2:rejected
+
 class IP_Location(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
     type = models.CharField(default="ipv4", max_length=4)

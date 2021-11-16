@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Cat, User_Extra, IP_Location
+from .models import Cat, User_Extra, IP_Location, Subscription, Borrow_Request
 from functools import lru_cache
 from .serializers import *
 import requests as rq
@@ -15,7 +15,6 @@ from ipware import get_client_ip
 import base64
 from django.core.files.base import ContentFile
 from datetime import datetime
-
 
 
 def getLocationForIP(incoming_ip):
@@ -66,6 +65,61 @@ def getExtraUserInfo(user_id):
     extraUser = UserExtraSerializer(extraUser, many = False)
 
     return extraUser
+
+
+@login_required(login_url='/cat/login')
+def subscribe(request):
+
+    if request.is_ajax() and request.method == "POST":
+        target_id = request.POST['target_id']
+
+        if User.objects.filter(id = target_id).exists() == False:
+            return HttpResponse("User does not exist!")
+
+        target = User.objects.get(id = target_id)
+        followed_by = request.user
+
+        new_subscription, created = Subscription.objects.get_or_create(target=target, followed_by=followed_by, defaults={
+            "target":target, 
+            "followed_by":followed_by,
+        })
+
+        if created == True:
+            return HttpResponse("success")
+        else:
+            return HttpResponse("Already followed")
+
+@login_required(login_url='/cat/login')
+def unsubscribe(request):
+
+    if request.is_ajax() and request.method == "POST":
+        target_id = request.POST['target_id']
+
+        if User.objects.filter(id = target_id).exists() == False:
+            return HttpResponse("User does not exist!")
+
+        target = User.objects.get(id = target_id)
+        followed_by = request.user
+
+        try:
+            target_relation = Subscription.objects.get(target=target, followed_by=followed_by)
+            target_relation.delete()
+            return HttpResponse("success")
+        except:
+            return HttpResponse("You are not following the user.")
+
+@login_required(login_url='/cat/login')
+def checkSubscription(request):
+
+    if request.is_ajax() and request.method == "POST":
+        target_id = request.POST['target_id']
+        target = User.objects.get(id = target_id)
+        followed_by = request.user
+
+        if Subscription.objects.filter(target=target, followed_by=followed_by).exists():
+            return HttpResponse(1)
+        else:
+            return HttpResponse(0)
 
 @login_required(login_url='/cat/login')
 def uploadHeader(request):
@@ -192,18 +246,7 @@ def search(request):
             'lastSearchOption': lastSearchOption, 
         }
     
-        return render(request, 'cat/search.html', context)
-
-
-    # if request.method == "GET" and 'keyword' in request.GET and request.GET['keyword'] != '':
-    #     keyword = request.GET['keyword'].strip()
-
-    #     searchResult['content'], searchResult["Exist"], searchResult['isCat'] = queryKeywordFromDB(keyword, request.GET['search-option'])
-
-    #     isSearch = True
-    #     request.session['lastSearchOption'] = request.GET['search-option']
-    #     lastSearchOption = request.session['lastSearchOption']
-    
+        return render(request, 'cat/search.html', context)    
     
 
 # @lru_cache(maxsize = 128)

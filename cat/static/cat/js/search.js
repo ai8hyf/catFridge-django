@@ -101,14 +101,81 @@ function goToUser(uid){
     
     $("#fu-modal-name").text(foundUsers[uid]['user']['username'])
     $("#fu-modal-about").text(foundUsers[uid]['about'])
+    $("#follow-button").html('<i class="fas fa-spinner fa-spin"></i>')
     $("#found-user-modal").show()
+
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/checkSubscription",
+        method: "POST",
+        data: {"target_id": uid},
+        success: function(res){
+
+            if(res==1){
+                $("#follow-button").html('Stop Follow')
+                $("#follow-button").removeClass("btn-submit")
+                $("#follow-button").addClass("btn-cancel")
+                $("#follow-button").attr("onclick", "stopFollow("+uid+")")
+            }else{
+                $("#follow-button").html('Follow <i class="fas fa-user-plus"></i>')
+                $("#follow-button").attr("onclick", "startFollow("+uid+")")
+            }
+        }
+    })
 }
 
 function borrowCat(cid){
     
 }
 
-// searchKeyword("yifei", "user")
+function startFollow(uid){
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/subscribe",
+        method: "POST",
+        data: {"target_id": uid},
+        success: function(res){
+
+            if(res=="success"){
+                $("#follow-button").html('Stop Follow')
+                $("#follow-button").removeClass("btn-submit")
+                $("#follow-button").addClass("btn-cancel")
+                $("#follow-button").attr("onclick", "stopFollow("+uid+")")
+            }else{
+                alert(res)
+            }
+        }
+    })
+}
+
+function stopFollow(uid){
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/unsubscribe",
+        method: "POST",
+        data: {"target_id": uid},
+        success: function(res){
+            
+            if(res=="success"){
+                $("#follow-button").html('Follow <i class="fas fa-user-plus"></i>')
+                $("#follow-button").addClass("btn-submit")
+                $("#follow-button").removeClass("btn-cancel")
+                $("#follow-button").attr("onclick", "startFollow("+uid+")")
+            }else{
+                alert(res)
+            }
+        }
+    })
+}
+
+
+searchKeyword("yifei", "user")
 
 
 // searchKeyword("5", "cat")
