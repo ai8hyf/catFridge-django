@@ -14,6 +14,20 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username']
 
+# get username and id
+class UserIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id']
+
+class FollowingIdSerializer(serializers.ModelSerializer):
+
+    target = UserIdSerializer(read_only = True)
+
+    class Meta:
+        model = Subscription
+        fields = ['target']
+
 # get extra user info
 class UserExtraSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True)

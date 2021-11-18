@@ -16,7 +16,7 @@ function howManyFridges(){
 }
 howManyFridges()
 
-$("#menu-home").addClass("active")
+$(".menu-home").addClass("active")
 
 $(".fridge-container").click(function(){
     window.location.href = './fridge.html';

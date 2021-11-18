@@ -49,41 +49,6 @@
 
 {% endblock container %}
 
-{% block modal %}
-<div class="modal modal-dismissable" id="found-user-modal">
-
-    <div class="modal-body modal-body-md">
-        <div class="modal-header">
-            About <span id="fu-modal-name"></span> <span class="close-modal-button" data-close="#found-user-modal"><i class="fas fa-times"></i></span>
-        </div>
-
-        <div class="modal-content">
-            <div class="user-part">
-                <div>
-                    <img id="fu-modal-header" src="{% static 'cat/img/temp-header.png' %}" alt="user header">
-                    <div id="fu-modal-about"></div>
-                </div>
-            </div>
-
-
-            <div class="cat-part">
-                <h3>Cat Collection (<span id="total-cats"></span>)</h3>
-                <div class="cat-collection">
-                    <!-- <canvas class="one-cat-collection"></canvas>
-                    <canvas class="one-cat-collection"></canvas>
-                    <canvas class="one-cat-collection"></canvas>
-                    <canvas class="one-cat-collection"></canvas> -->
-                </div>
-            </div>
-        </div>
-
-        <div class="modal-controls">
-            <button class="btn btn-submit" id="follow-button">Follow <i class="fas fa-user-plus"></i></button>
-        </div>
-    </div>
-</div>
-{% endblock modal %}
-
 {% block js %}
     <script src="{% static 'cat/js/catBuilder.js' %}"></script>
     <script src="{% static 'cat/js/search.js' %}"></script>

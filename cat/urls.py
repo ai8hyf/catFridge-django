@@ -9,6 +9,7 @@ urlpatterns = [
     path('fridge/add', views.addCat, name='add'),
     path('search/', views.search, name='search'),
     path('activity/', views.activity, name='activity'),
+    path('connection/', views.connection, name='connection'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),
     path('fridge/updateCatDesc', views.updateCatDesc, name='updateCatDesc'),
@@ -20,7 +21,11 @@ urlpatterns = [
     path('subscribe', views.subscribe, name='subscribe'),
     path('unsubscribe', views.unsubscribe, name='unsubscribe'),
     path('checkSubscription', views.checkSubscription, name='checkSubscription'),
+    path('getFollowingIds', views.getFollowingIds, name='getFollowingIds'),
+    path('getFollowerByName', views.getFollowerByName, name='getFollowerByName'),
+    path('getFollowingByName', views.getFollowingByName, name='getFollowingByName'),
 ]
+
 
 if settings.DEBUG: 
     urlpatterns += static(

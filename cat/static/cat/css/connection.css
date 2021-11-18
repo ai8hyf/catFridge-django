@@ -1,0 +1,168 @@
+.full-height-panel{
+    /* border: 1px solid black; */
+    display: block;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.header-select-tab{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    height: 60px;
+    line-height: 60px;
+}
+
+.header-select-tab>div{
+    font-family: Andale Mono, monospace;
+    font-size: 24px;
+    color: grey;
+    cursor: pointer;
+}
+
+.header-select-tab>div.selected, .header-select-tab>div:hover{
+    font-weight: bold;
+    color: black;
+    border-bottom: 3px solid black;
+}
+
+.user-found{
+    font-family: Andale Mono, monospace;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    color: black;
+    background-color: white;
+    height: 120px;
+    text-align: left;
+    transition: all .3s;
+    cursor: pointer;
+    /* border-bottom: 1px solid rgb(179, 179, 179); */
+}
+
+
+.user-found:hover{
+    background-color: rgb(235, 235, 235);
+}
+
+.found-user-header{
+    width: 80px;
+    height: 80px;
+    border: 3px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+    display: block;
+    float: left;
+}
+
+.found-user-right{
+    width:100%;
+}
+
+.found-user-name{
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    font-weight: bold;
+    padding-left: 20px;
+    user-select: none;
+}
+
+.right-aligned-button{
+    border: 1px solid black;
+    background-color: white;
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    padding: 0 10px;
+    user-select: none;
+}
+
+.sm-follow-button:hover{
+    background-color: green;
+    color: white; 
+    border-color: green;
+}
+
+.sm-unfollow-button{
+    background-color: green;
+    color: white; 
+    border-color: green;
+}
+
+.sm-unfollow-button:hover{
+    background-color: red;
+    color: white; 
+    border-color: red;
+}
+
+.found-user-about{
+    height: 60px;
+    line-height: 30px;
+    font-size: 20px;
+    display: block;
+    overflow: hidden;
+    padding-left: 20px;
+    user-select: none;
+}
+
+.container{
+    width: 45%;
+    max-width: 800px;
+}
+
+@media screen and (max-width: 1200px){
+    .container{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 992px){
+    .container{
+        width: 80%;
+    }
+
+    .full-height-panel{
+        width: 100%;
+    }
+    .header-select-tab{
+        height: 50px;
+        line-height: 50px;
+    }
+    .header-select-tab>div{
+        font-size: 24px;
+    }
+}
+
+
+@media screen and (max-width: 576px){
+    .container{
+        width: 100%;
+    }
+    .header-select-tab{
+        height: 40px;
+        line-height: 40px;
+    }
+    .header-select-tab>div{
+        font-size: 22px;
+    }
+    .user-found{
+        padding: 5px 15px;
+        height: 110px;
+    }
+}

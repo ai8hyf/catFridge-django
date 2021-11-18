@@ -1,4 +1,4 @@
-$("#menu-activity").addClass("active")
+$(".menu-activity").addClass("active")
 
 $(".filter>button").click(function(){
     $(".filter>button").removeClass("selected")

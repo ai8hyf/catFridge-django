@@ -15,10 +15,16 @@ nav>ul{
 nav>ul>li{
     text-align: center;
     display: inline-block;
-    line-height: 40px;
+    line-height: 30px;
     font-size: 30px;
     padding: 5px 20px;
     color: grey;
+    cursor: pointer;
+}
+
+nav>ul>li>a{
+    text-decoration: none;
+    color: inherit;
     cursor: pointer;
 }
 
@@ -27,25 +33,25 @@ nav>ul>li.right-aligned{
     display: inline;
 }
 
-nav>ul>li.active{
+nav>ul>li.active, nav>ul>li>a.active{
     color: black;
 }
 
-nav>ul>li:hover{
+nav>ul>li.left-aligned:hover{
     text-decoration: none;
     color: black;
     transform: scale(1.1, 1.1);
 }
 
-nav>ul>li.right-aligned:hover{
-    transform: none;
+nav>ul>li.right-aligned>a{
+    margin-left: 20px;
     transition: all .3s;
 }
 
-nav>ul>li>a{
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
+nav>ul>li.right-aligned>a:hover{
+    transform: none;
+    color: black;
+    transition: all .3s;
 }
 
 #menu-expand{
@@ -55,13 +61,51 @@ nav>ul>li>a{
 #menu-expand:hover{
     transform: scale(1, 1);
 }
+footer{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 0;
+    text-align: center;
+    line-height: 40px;
+    z-index: 9999;
+}
 
 @media screen and (max-width: 992px){
-    nav>ul>li, nav>ul>li.right-aligned{
+    footer{
+        display: block;
+    }
+    footer>div{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-content: center;
+    }
+    footer>div>a{
+        text-decoration: none;
+        color: gray;
+        font-size: 30px;
+        transition: all .3s;
+    }
+    footer>div>a.active{
+        color: black;
+    }
+    footer>div>a:hover{
+        color: black;
+        transition: all .3s;
+    }
+    nav>ul>li.left-aligned{
         display: none;
-        float: none;
-        background-color: white;
-        z-index: 999;
+    }
+    nav{
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     nav, ul{
         display: block;
@@ -69,14 +113,7 @@ nav>ul>li>a{
         z-index: 999;
         background-color: white;
     }
-    nav{
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    #menu-expand{
-        display: list-item;
-    }
+
     .container{
         padding-top: 60px;
     }

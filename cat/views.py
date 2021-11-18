@@ -1,5 +1,8 @@
 import os
+from django.db.models.query import QuerySet
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers as sr
+from django.http.request import QueryDict
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib import auth
@@ -32,8 +35,6 @@ def getLocationForIP(incoming_ip):
         res = rq.get(ip_stack_request)
 
         res = res.json()
-
-        print(res)
 
         new_ip = IP_Location(
             ip = incoming_ip,
@@ -122,6 +123,48 @@ def checkSubscription(request):
             return HttpResponse(0)
 
 @login_required(login_url='/cat/login')
+def getFollowingIds(request):
+
+    if request.is_ajax() and request.method == "POST":
+        target_id = request.POST.getlist('target_ids[]')
+
+        print(target_id)
+
+        target = User.objects.filter(id__in = target_id)
+
+        print(target)
+
+        followed_by = request.user
+
+        QuerySet = Subscription.objects.filter(target__in=target, followed_by=followed_by)
+
+        res = FollowingIdSerializer(QuerySet, many=True)
+
+        return JsonResponse(res.data, safe=False)
+
+@login_required(login_url='/cat/login')
+def getFollowerByName(request):
+    if request.is_ajax() and request.method == "POST":
+        targetUser = User.objects.get(username = request.POST["username"])
+        allFollower = Subscription.objects.filter(target=targetUser).values_list("followed_by")
+
+        QuerySet = User_Extra.objects.filter(user__in = allFollower)
+        extraUser = UserExtraSerializer(QuerySet, many = True)
+
+        return JsonResponse(extraUser.data, safe=False)
+
+@login_required(login_url='/cat/login')
+def getFollowingByName(request):
+    if request.is_ajax() and request.method == "POST":
+        targetUser = User.objects.get(username = request.POST["username"])
+        allFollowing = Subscription.objects.filter(followed_by=targetUser).values_list("target")
+
+        QuerySet = User_Extra.objects.filter(user__in = allFollowing)
+        extraUser = UserExtraSerializer(QuerySet, many = True)
+
+        return JsonResponse(extraUser.data, safe=False)
+
+@login_required(login_url='/cat/login')
 def uploadHeader(request):
     
     # -----------------------------------------------
@@ -160,6 +203,10 @@ def index(request):
     context = {'username': request.user.username, 'email': request.user.email}
     return render(request, 'cat/index.html', context)
 
+@login_required(login_url='/cat/login')
+def connection(request):
+    context = {'username': request.user.username, 'email': request.user.email}
+    return render(request, 'cat/connection.html', context)
 
 @login_required(login_url='/cat/login')
 def fridge(request):

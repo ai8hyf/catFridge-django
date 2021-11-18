@@ -11,8 +11,8 @@
     {% endblock title %}
 
     <link rel="stylesheet" href="{% static 'cat/fontawesome-free-5.15.4-web/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'cat/css/navbar.css' %}">
-    <link rel="stylesheet" href="{% static 'cat/css/footer.css' %}">
     <link rel="stylesheet" href="{% static 'cat/css/modal.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" integrity="sha512-zxBiDORGDEAYDdKLuYU9X/JaJo/DPzE42UubfBw9yg8Qvb2YRRIQ8v4KsGHOx2H1/+sdSXyXxLXv5r7tHc9ygg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -24,17 +24,25 @@
 <body>
     <nav>
         <ul>
-            <li id="menu-expand"><i class="fas fa-bars"></i></li>
-            <li id="menu-home"><a href="{% url 'index' %}">Home</a></li>
-            <li id="menu-fridge"><a href="{% url 'fridge' %}">My Fridge</a></li>
-            <li id="menu-search"><a href="{% url 'search' %}">Search</a></li>
-            <li id="menu-activity"><a href="{% url 'activity' %}">Activity</a></li>
-            <li class="right-aligned" id="user-banner"><a href="#">{{username}} <i class="fas fa-user"></i></a></li>
+            <!-- <li class="left-aligned menu-home"><a href="{% url 'index' %}">Home</a></li> -->
+            <li class="left-aligned menu-activity"><a href="{% url 'activity' %}">Home</a></li>
+            <li class="left-aligned menu-fridge"><a href="{% url 'fridge' %}">My Fridge</a></li>
+            <li class="left-aligned menu-search"><a href="{% url 'search' %}">Search</a></li>
+            <li class="right-aligned"><a href="#" id="user-banner" data-username="{{username}}"><i class="fas fa-user"></i></a><a href="{% url 'connection' %}" id="friends-banner"><i class="fas fa-people-arrows"></i></a><a href="#" id="notification-banner"><i class="fas fa-bell"></i></a></li>
+            
         </ul>
     </nav>
 
     {% block container %}
     {% endblock container %}
+
+    <footer>
+        <div>
+            <a href="{% url 'activity' %}" class="menu-activity"><i class="fas fa-home"></i></a>
+            <a href="{% url 'fridge' %}" class="menu-fridge"><i class="fas fa-box"></i></a>
+            <a href="{% url 'search' %}" class="menu-search"><i class="fas fa-search"></i></a>
+        </div>
+    </footer>
 
     <!-- <footer>
         Copyright: Copy ain't right!
@@ -87,13 +95,42 @@
         </div>
     </div>
 
+    <div class="modal modal-dismissable" id="found-user-modal">
+
+        <div class="modal-body modal-body-md">
+            <div class="modal-header">
+                About <span id="fu-modal-name"></span> <span class="close-modal-button" data-close="#found-user-modal"><i class="fas fa-times"></i></span>
+            </div>
+    
+            <div class="modal-content">
+                <div class="user-part">
+                    <div>
+                        <img id="fu-modal-header" src="{% static 'cat/img/temp-header.png' %}" alt="user header">
+                        <div id="fu-modal-about"></div>
+                    </div>
+                </div>
+    
+                <div class="cat-part">
+                    <h3>Cat Collection (<span id="total-cats"></span>)</h3>
+                    <div class="cat-collection">
+                        <!-- <canvas class="one-cat-collection"></canvas> -->
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal-controls">
+                <button class="btn btn-submit" id="follow-button">Follow <i class="fas fa-user-plus"></i></button>
+            </div>
+        </div>
+    </div>
+
     {% block modal %}
     {% endblock modal %}
 
     <script src="{% static 'cat/js/jquery-3.6.0.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js" integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        var userName = $("#user-banner>a").text()
+        var userName = $("#user-banner").data("username")
     </script>
     <script src="{% static 'cat/js/csrf.js' %}"></script>
     <script src="{% static 'cat/js/modal.js' %}"></script>

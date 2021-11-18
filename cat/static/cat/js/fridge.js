@@ -1,6 +1,6 @@
 $(document).ready(function(){
     getCatsFromDB()
-    $("#menu-fridge").addClass("active")
+    $(".menu-fridge").addClass("active")
 })
 
 let catFromDB = {}

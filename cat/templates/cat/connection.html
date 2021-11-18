@@ -1,0 +1,51 @@
+{% extends 'cat/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>Activities</title>
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'cat/css/connection.css' %}">
+    <link rel="stylesheet" href="{% static 'cat/css/modal.css' %}">
+{% endblock css %}
+
+{% block container %}
+<div class="container">
+
+    <div class="header-select-tab">
+        <div class="selected" id="follower-tab">Followers</div>
+        <div id="following-tab">Following</div>
+    </div>
+    
+    <div class="full-height-panel">
+        <div class="follower-panel">
+            <!-- <div class="user-found">
+                <img src="" alt="" class="found-user-header">
+                
+                <div class="found-user-right">
+                    <div class="found-user-name"><span>Yifei</span><span class="right-aligned-button sm-follow-button">Follow</span></div>
+                    <div class="found-user-about">This is some description. This is some description. This is some description. This is some description. This is some description</div>    
+                </div>
+            </div>
+
+            <div class="user-found">
+                <img src="{% static 'cat/img/temp-header.png' %}" alt="" class="found-user-header">
+                
+                <div class="found-user-right">
+                    <div class="found-user-name"><span>Yifei</span><span class="right-aligned-button sm-unfollow-button">Following</span></div>
+                    <div class="found-user-about">This is some description.</div>    
+                </div>
+            </div> -->
+        </div>
+        <div class="following-panel"></div>
+    </div>
+
+</div>
+{% endblock container %}
+
+{% block js %}
+    <script src="{% static 'cat/js/catBuilder.js' %}"></script>
+    <script src="{% static 'cat/js/connection.js' %}"></script>
+{% endblock js %}
