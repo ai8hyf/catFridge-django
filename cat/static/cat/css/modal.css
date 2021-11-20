@@ -2,7 +2,8 @@
     display: block;
     z-index: 999;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh);
+    overflow-y: auto;
     background-color: rgba(255, 255, 255, 0.75);
     position: absolute;
     left: 0;
@@ -13,12 +14,12 @@
 .modal-body{
     box-sizing: border-box;
     display: block;
-    width: calc(40% - 40px);
+    width: calc(45% - 40px);
     background-color: white;
     border: 3px solid black;
     opacity: 1;
     margin: 20px auto;
-    font-family: Andale Mono, monospace;
+    font-family: Arial;
 }
 
 .modal-body-md{
@@ -64,7 +65,7 @@
     background-color: white;
     border: 3px solid black;
     color: black;
-    font-family: Andale Mono, monospace;
+    font-family: Arial, sans-serif;
     cursor: pointer;
     user-select: none;
     -moz-user-select: none;
@@ -102,7 +103,7 @@ a.btn{
     
     outline: none;
     width: 100%;
-    font-family: Andale Mono, monospace;
+    font-family: Arial, sans-serif;
 }
 .modal-input-group>button{
     min-width: 100px;
@@ -113,7 +114,7 @@ a.btn{
     text-align: center;
     font-size: 20px;
     background-color: white;
-    font-family: Andale Mono, monospace;
+    font-family: Arial, sans-serif;
 }
 
 .existing-borrower{
@@ -144,7 +145,7 @@ a.btn{
 .cat-stats-list>li{
     list-style: none;
     padding: 10px 0;
-    font-family: Comic Sans MS, Comic Sans, cursive;;
+    font-family: Arial, sans-serif;
 }
 
 .cat-stats-list>li>span.column-name{
@@ -157,7 +158,15 @@ a.btn{
     cursor: help;
 }
 
-.image-column{
+.cat-stats-list>li>span.column-name-wide{
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: orange;
+    font-weight: bold;
+}
+
+.image-column, .about-column{
     height: 80px;
     display: block;
     float: left;
@@ -180,11 +189,32 @@ a.btn{
 
 .cat-stats-edit{
     display: inline;
-    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-family: Arial, sans-serif;
     border: 3px solid black;
     outline: none;
     font-size: 100%;
     padding-left: 5px;
+}
+
+#user-info-about{
+    height: 86px;
+    box-sizing: border-box;
+}
+
+.inline-btn{
+    display: inline;
+    font-family: Arial, sans-serif;
+    border: 3px solid black;
+    outline: none;
+    font-size: 100%;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: white;
+}
+.inline-btn:hover{
+    border-color: red;
+    background-color: orange;
+    color: black;
 }
 
 #choose-image-button{
@@ -239,7 +269,7 @@ a.btn{
     
 }
 
-.cat-collection{
+/* .cat-collection{
     overflow-x: auto;
     overflow-y: hidden;
     height: 380px;
@@ -254,7 +284,7 @@ a.btn{
     margin-right: 20px;
     padding: 20px;
     border: 1px dashed grey;
-}
+} */
 
 @media screen and (max-width: 1200px){
     .modal-body{
@@ -285,9 +315,18 @@ a.btn{
 }
 
 @media screen and (max-width: 576px){
+    .modal{
+        padding: 10px;
+        box-sizing: border-box;
+    }
     .modal-body{
-        width: 100vw;
+        box-sizing: border-box;
+        width: 100%;
         padding: 0;
+    }
+
+    .modal-content, .modal-controls{
+        padding: 10px;
     }
 
     .modal-body-lg{
@@ -296,16 +335,28 @@ a.btn{
     }
 
     .cat-stats-list>li{
-        font-size: 80%;
-        padding: 5px 0;
+        font-size: 100%;
+        padding: 10px 0;
     }
 
     .cat-stats-edit{
-        font-size: 80%;
+        font-size: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 5px;
     }
 
-    .cat-stats-list>li>span{
-        width: 80px;
+    .cat-stats-list>li>span.column-name{
+        border: 3px solid white;
+        font-weight: bold;
+        width: 120px;
+        font-size: 100%;
+    }
+    .about-column{
+        line-height: 24px;
+        height: 28px;
+        box-sizing: border-box;
+        font-size: 100%;
     }
 }
 

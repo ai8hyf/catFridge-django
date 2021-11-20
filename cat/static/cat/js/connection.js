@@ -10,20 +10,20 @@ function setFullHeightPanel(){
 }
 setFullHeightPanel()
 
-$(".full-height-panel").on("mouseover", ".sm-unfollow-button", function(){
+$(".container").on("mouseover", ".sm-unfollow-button", function(){
     $(this).text("Unfollow")
 });
-$(".full-height-panel").on("mouseout", ".sm-unfollow-button", function(){
+$(".container").on("mouseout", ".sm-unfollow-button", function(){
     $(this).text("Following")
 });
 
-$(".full-height-panel").on("click", ".user-found", function(e){
+$(".container").on("click", ".user-found", function(e){
     let uid = $(this).data("uid")
     console.log(uid)
     goToUser(uid)
 });
 
-$(".full-height-panel").on("click", ".right-aligned-button", function(e){
+$(".container").on("click", ".right-aligned-button", function(e){
     e.stopPropagation();
 });
 

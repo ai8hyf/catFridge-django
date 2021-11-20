@@ -173,26 +173,28 @@ def uploadHeader(request):
 
     if request.is_ajax() and request.method == "POST":
 
-        extraUser = User_Extra.objects.get(user = request.user)
+        if int(request.POST['targetUserID']) == int(request.user.id) or request.user.is_superuser:
+            targetUser = User.objects.get(id = request.POST['targetUserID'])
+            extraUser = User_Extra.objects.get(user = targetUser)
 
-        oldImage = ""
-        if bool(extraUser.header) == True:
-            oldImage = extraUser.header.path
+            oldImage = ""
+            if bool(extraUser.header) == True:
+                oldImage = extraUser.header.path
 
-        imageData = request.POST['new_header']
-        format, imgstr = imageData.split(';base64,')
-        ext = format.split('/')[-1]
+            imageData = request.POST['new_header']
+            format, imgstr = imageData.split(';base64,')
+            ext = format.split('/')[-1]
 
-        imageFile = ContentFile(base64.b64decode(imgstr)) 
-        fileName = request.user.username + str(datetime.utcnow()) + "." + ext
+            imageFile = ContentFile(base64.b64decode(imgstr)) 
+            fileName = targetUser.username + str(datetime.utcnow()) + "." + ext
 
-        extraUser.header.save(fileName, imageFile, save=True)
+            extraUser.header.save(fileName, imageFile, save=True)
 
-        # not very elegant.
-        if oldImage != "":
-            os.remove(oldImage)
+            # not very elegant.
+            if oldImage != "":
+                os.remove(oldImage)
 
-        return HttpResponse("1")
+            return HttpResponse(extraUser.header.path)
     
     return HttpResponse("0")
     
@@ -200,18 +202,18 @@ def uploadHeader(request):
 
 @login_required(login_url='/cat/login')
 def index(request):
-    context = {'username': request.user.username, 'email': request.user.email}
+    context = {'username': request.user.username, 'email': request.user.email, 'uid':request.user.id}
     return render(request, 'cat/index.html', context)
 
 @login_required(login_url='/cat/login')
 def connection(request):
-    context = {'username': request.user.username, 'email': request.user.email}
+    context = {'username': request.user.username, 'email': request.user.email, 'uid':request.user.id}
     return render(request, 'cat/connection.html', context)
 
 @login_required(login_url='/cat/login')
 def fridge(request):
 
-    context = {'username': request.user.username, 'email': request.user.email}
+    context = {'username': request.user.username, 'email': request.user.email, 'uid':request.user.id}
 
     if request.method == 'GET':
         return render(request, 'cat/fridge.html', context)
@@ -237,6 +239,19 @@ def getAllCatFromUser(request):
         catQuerySet = Cat.objects.all().filter(owner = catOwner)
         serializer = CatDetailSerializer(catQuerySet, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+def getUser(request, uid):
+    if User.objects.filter(id = uid).exists() == False:
+        return HttpResponse("User does not exist!")
+
+    targetUser = User.objects.get(id = uid)
+    ExtraUserInfo = User_Extra.objects.get(user = targetUser)
+    followerCount = Subscription.objects.filter(target = targetUser).count()
+    followingCount = Subscription.objects.filter(followed_by = targetUser).count()
+    context = {'user': targetUser, 'userExtra': ExtraUserInfo, "followerCount":followerCount, "followingCount": followingCount, 'uid':request.user.id, "birthdate": str(ExtraUserInfo.birthdate), "is_admin": request.user.is_superuser}
+
+    return render(request, 'cat/profile.html', context)
+
 
 @login_required(login_url='/cat/login')
 def getUserDetail(request):
@@ -290,7 +305,8 @@ def search(request):
         context = {
             'username': request.user.username, 
             'email': request.user.email, 
-            'lastSearchOption': lastSearchOption, 
+            'lastSearchOption': lastSearchOption,
+            'uid': request.user.id 
         }
     
         return render(request, 'cat/search.html', context)    
@@ -341,32 +357,61 @@ def updateCatDesc(request):
 def updateUserAbout(request):
     if request.is_ajax() and request.method == "POST":
 
-        extraUser = User_Extra.objects.get(user = request.user)
-        newAbout = request.POST['new-info']
-        extraUser.about = newAbout
-        extraUser.save()
+        if int(request.POST['targetUserID']) == int(request.user.id) or request.user.is_superuser:
+            targetUser = User.objects.get(id = request.POST['targetUserID'])
+            extraUser = User_Extra.objects.get(user = targetUser)
+            extraUser.about = request.POST['new-info']
+            extraUser.save()
 
-        return HttpResponse("1")
+            return HttpResponse("1")
     
+    return HttpResponse("0")
+
+@login_required(login_url='/cat/login')
+def updateUserFirstName(request):
+    if request.is_ajax() and request.method == "POST":
+
+        if int(request.POST['targetUserID']) == int(request.user.id) or request.user.is_superuser:
+
+            targetUser = User.objects.get(id = request.POST['targetUserID'])
+            targetUser.first_name = request.POST['new-info']
+            targetUser.save()
+
+            return HttpResponse("1")
+
+    return HttpResponse("0")
+
+@login_required(login_url='/cat/login')
+def updateUserLastName(request):
+    if request.is_ajax() and request.method == "POST":
+        if int(request.POST['targetUserID']) == int(request.user.id) or request.user.is_superuser:
+
+            targetUser = User.objects.get(id = request.POST['targetUserID'])
+            targetUser.last_name = request.POST['new-info']
+            targetUser.save()
+
+            return HttpResponse("1")
+
     return HttpResponse("0")
 
 
 @login_required(login_url='/cat/login')
 def updateUserBirthday(request):
     if request.is_ajax() and request.method == "POST":
-    
-        extraUser = User_Extra.objects.get(user = request.user)
-        newBirthday = request.POST['new-info']
-        extraUser.birthdate = newBirthday
-        extraUser.save()
 
-        return HttpResponse("1")
+        if int(request.POST['targetUserID']) == int(request.user.id) or request.user.is_superuser:
+            targetUser = User.objects.get(id = request.POST['targetUserID'])
+            extraUser = User_Extra.objects.get(user = targetUser)
+            extraUser.birthdate = request.POST['new-info']
+            extraUser.save()
+
+            return HttpResponse("1")
     
     return HttpResponse("0")
 
 @login_required(login_url='/cat/login')
 def activity(request):
-    context = {'username': request.user.username, 'email': request.user.email}
+    context = {'username': request.user.username, 'email': request.user.email, 'uid':request.user.id}
     if request.method == 'GET':
         return render(request, 'cat/activity.html', context)
     
