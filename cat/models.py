@@ -1,8 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields import BooleanField, IntegerField
 from django.utils.timezone import now
 
 class Subscription(models.Model):
+
+    # If, if this website becomes popular one day
+    # id = models.BigAutoField(primary_key=True)
+
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target_FK')
     followed_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_FK')
     followed_at = models.DateTimeField(default=now, editable=False)
@@ -11,12 +16,36 @@ class Subscription(models.Model):
         return str(self.target.username)+" followed by "+self.followed_by.username
 
 class Borrow_Request(models.Model):
+    
+    # If, if this website becomes popular one day
+    # id = models.BigAutoField(primary_key=True)
+
     borrower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_borrower_FK')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='request_owner_FK')
     target_cat = models.ForeignKey("Cat", on_delete=models.CASCADE, related_name='request_target_cat_FK')
     request_at = models.DateTimeField(default=now, editable=False)
     message = models.TextField(default="Hi, I want to borrow your cat:)")
     status = models.IntegerField(default=0) # 0:pending  1:approved  2:rejected
+
+class Notification(models.Model):
+
+    # If, if this website becomes popular one day
+    # id = models.BigAutoField(primary_key=True)
+
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_receiver_FK')
+    resolved = BooleanField(default=False)
+
+    # type of notification:
+    # 0: subscription | Subscription Model
+    # 1: borrow request received | Borrow_Request Model
+    # 2: borrow request rejected | Borrow_Request Model
+    # 3: borrow request approved | Borrow_Request Model
+    # 4: ...
+    type = IntegerField(default=0)
+
+    # reference_id:
+    # the id of the record in the model table (determined by type of notification)
+    reference_id = IntegerField(default=0)
 
 class IP_Location(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)

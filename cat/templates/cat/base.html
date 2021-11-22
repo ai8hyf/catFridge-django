@@ -46,27 +46,41 @@
 
     
 
-    <!-- <div class="modal modal-dismissable" id="found-user-modal">
+    <div class="modal modal-dismissable modal-no-dim" id="notification-modal">
 
-        <div class="modal-body modal-body-md">
-            <div class="modal-header">
-                About <span id="fu-modal-name"></span> <span class="close-modal-button" data-close="#found-user-modal"><i class="fas fa-times"></i></span>
+        <div class="modal-body modal-top-right">
+            <div class="modal-header modal-header-light">
+                Notifications <span class="close-modal-button" data-close="#notification-modal"><i class="fas fa-times"></i></span>
             </div>
     
             <div class="modal-content">
-                <div class="user-part">
-                    <div>
-                        <img id="fu-modal-header" src="{% static 'cat/img/temp-header.png' %}" alt="user header">
-                        <div id="fu-modal-about"></div>
+                <div class="modal-tab-bar">
+                    <div class="modal-tab modal-tab-selected" id="new-nofitication-tab">New</div>
+                    <div class="modal-tab" id="all-nofitication-tab">All</div>
+                </div>
+
+                <div class="modal-tab-content" id="notification-content">
+                    <!-- <div class="one-notification">
+                        <img src="{% static 'cat/img/temp-header.png' %}" alt="header photo">
+                        <div>
+                            <strong>yifei</strong> started following you. <light>1d</light>
+                        </div>
                     </div>
+
+                    <div class="one-notification">
+                        <img src="{% static 'cat/img/temp-header.png' %}" alt="header photo">
+                        <div>
+                            <strong>yifei</strong> started following you. <light>1d</light>
+                        </div>
+                    </div> -->
                 </div>
             </div>
     
-            <div class="modal-controls">
+            <!-- <div class="modal-controls">
                 <button class="btn btn-submit" id="follow-button">Follow <i class="fas fa-user-plus"></i></button>
-            </div>
+            </div> -->
         </div>
-    </div> -->
+    </div>
 
     {% block modal %}
     {% endblock modal %}
@@ -79,7 +93,7 @@
     <script src="{% static 'cat/js/csrf.js' %}"></script>
     <script src="{% static 'cat/js/modal.js' %}"></script>
     <script src="{% static 'cat/js/navbar.js' %}"></script>
-
+    <script src="{% static 'cat/js/notification.js' %}"></script>
     {% block js %}
     {% endblock js %}
 </body>

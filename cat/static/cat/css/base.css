@@ -20,6 +20,31 @@ html, body, div, h1, h2, h3, h4, ul, ol, li, a, p, span{
     background: #555; 
 }
 
+/* this is for notification */
+.fa-layers{
+    position: relative;
+}
+.fa-layers-counter{
+    position: absolute;
+    right: -18px;
+    top: 2px;
+    display: inline-block;
+    -webkit-transform: scale(.45);
+    transform: scale(.45);
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-align: center;
+    min-width: 40px;
+    font-weight: bold;
+    color: white;
+    background-color: tomato;
+}
+
+
+
+
 /* this is the main container */
 .container{
     height: calc(100vh - 60px);

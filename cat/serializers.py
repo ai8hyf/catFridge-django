@@ -28,6 +28,14 @@ class FollowingIdSerializer(serializers.ModelSerializer):
         model = Subscription
         fields = ['target']
 
+class SubNotificationSerializer(serializers.ModelSerializer):
+
+    followed_by = UserSerializer(read_only = True)
+
+    class Meta:
+        model = Subscription
+        fields = ['id','followed_by', "followed_at"]
+
 # get extra user info
 class UserExtraSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True)

@@ -60,7 +60,7 @@ function getAllCatFromUser(){
         success: function(result){
             
             for(let i=0; i<result.length;i++){
-                $(".cat-collection").append('<div class="one-cat-collection"><canvas id="one-cat-'+result[i]['id']+'"></canvas><div>Borrow</div></div>')
+                $(".cat-collection").append('<div class="one-cat-collection"><canvas id="one-cat-'+result[i]['id']+'"></canvas><div class="expand"><i class="fas fa-ellipsis-h"></i></div></div>')
     
                 draw("one-cat-"+result[i]['id'], result[i])
             }

@@ -27,6 +27,9 @@ urlpatterns = [
     path('getFollowingIds', views.getFollowingIds, name='getFollowingIds'),
     path('getFollowerByName', views.getFollowerByName, name='getFollowerByName'),
     path('getFollowingByName', views.getFollowingByName, name='getFollowingByName'),
+    path('getAllNotification', views.getAllNotification, name='getAllNotification'),
+    path('getNewNotification', views.getNewNotification, name='getNewNotification'),
+    path('checkNewNotification', views.checkNewNotification, name='checkNewNotification'),
 ]
 
 

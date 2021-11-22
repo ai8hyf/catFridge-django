@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Cat, User_Extra, IP_Location, Subscription, Borrow_Request
+from .models import Cat, User_Extra, IP_Location, Subscription, Borrow_Request, Notification
 from functools import lru_cache
 from .serializers import *
 import requests as rq
@@ -18,6 +18,7 @@ from ipware import get_client_ip
 import base64
 from django.core.files.base import ContentFile
 from datetime import datetime
+from .notifications import *
 
 
 def getLocationForIP(incoming_ip):
@@ -86,6 +87,16 @@ def subscribe(request):
         })
 
         if created == True:
+            print("record id")
+            print(new_subscription.id)
+
+            newNotification = Notification(
+                receiver = target,
+                type = 0,
+                reference_id = new_subscription.id
+            )
+            newNotification.save()
+
             return HttpResponse("success")
         else:
             return HttpResponse("Already followed")
@@ -102,12 +113,21 @@ def unsubscribe(request):
         target = User.objects.get(id = target_id)
         followed_by = request.user
 
-        try:
+        if Subscription.objects.filter(target=target, followed_by=followed_by).exists():
             target_relation = Subscription.objects.get(target=target, followed_by=followed_by)
+
+            reference_id = target_relation.id
+
+            if Notification.objects.filter(reference_id = reference_id, type = 0).exists():
+                related_notification = Notification.objects.get(reference_id = reference_id, type = 0)
+                related_notification.delete()
+
             target_relation.delete()
+
             return HttpResponse("success")
-        except:
+        else:
             return HttpResponse("You are not following the user.")
+        
 
 @login_required(login_url='/cat/login')
 def checkSubscription(request):
