@@ -1,3 +1,4 @@
+from typing import cast
 from django.contrib import admin
 from .models import *
 
@@ -7,4 +8,5 @@ admin.site.register(Cat)
 admin.site.register(IP_Location)
 admin.site.register(Borrow_Request)
 admin.site.register(Subscription)
+admin.site.register(Cat_Love)
 admin.site.register(Notification)

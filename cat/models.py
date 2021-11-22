@@ -15,6 +15,11 @@ class Subscription(models.Model):
     def __str__(self):
         return str(self.target.username)+" followed by "+self.followed_by.username
 
+class Cat_Love(models.Model):
+    target_cat = models.ForeignKey("Cat", on_delete=models.CASCADE)
+    love_sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    loved_at = models.DateTimeField(default=now, editable=False)
+
 class Borrow_Request(models.Model):
     
     # If, if this website becomes popular one day
@@ -37,10 +42,11 @@ class Notification(models.Model):
 
     # type of notification:
     # 0: subscription | Subscription Model
-    # 1: borrow request received | Borrow_Request Model
-    # 2: borrow request rejected | Borrow_Request Model
-    # 3: borrow request approved | Borrow_Request Model
-    # 4: ...
+    # 1: new love for Cat | Cat_Love Model
+    # 2: borrow request received | Borrow_Request Model
+    # 3: borrow request rejected | Borrow_Request Model
+    # 4: borrow request approved | Borrow_Request Model
+    # 5: ...
     type = IntegerField(default=0)
 
     # reference_id:

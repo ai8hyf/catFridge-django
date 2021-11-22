@@ -20,10 +20,11 @@
     display: block;
     width: calc(45% - 40px);
     background-color: white;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     opacity: 1;
     margin: 20px auto;
     font-family: Arial;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px; 
 }
 
 .modal-body-md{
@@ -36,9 +37,25 @@
 
 .modal-top-right{
     position: absolute;
-    top: 40px;
+    top: 50px;
     right: 20px;
     max-width: 450px;
+    
+    /* border: 1px solid black; */
+    border: none;
+    border-top: 10px solid black;
+}
+
+.modal-arrow{
+    width: 0; 
+    height: 0; 
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid black;
+    position: absolute;
+    top: -20px;
+    right: 8px;
+    
 }
 
 .modal-header{
@@ -50,11 +67,12 @@
     color: white;
 }
 
-.modal-header-light{
-    background: white;
-    color: black;
-    font-weight: normal;
+.modal-header-slim{
+    background: black;
+    height: 20px;
+    padding: 0;
 }
+
 
 .modal-header>span.close-modal-button{
     float: right;
@@ -153,7 +171,6 @@ a.btn{
     display: inline-block;
     padding: 0 10px;
     text-align: center;
-    float: right;
 }
 .one-borrower>span:hover{
     color: red;
@@ -425,8 +442,19 @@ light{
 
     .modal-top-right{
         position: relative;
-        top: 30px;
+        top: 40px;
         right: 0;
+    }
+
+    .modal-arrow{
+        width: 0; 
+        height: 0; 
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid black;
+        position: absolute;
+        top: -22px;
+        right: 17px;
     }
 
     .cat-stats-list>li{

@@ -28,7 +28,7 @@
             <li class="left-aligned menu-activity"><a href="{% url 'activity' %}">Home</a></li>
             <li class="left-aligned menu-fridge"><a href="{% url 'fridge' %}">My Fridge</a></li>
             <li class="left-aligned menu-search"><a href="{% url 'search' %}">Search</a></li>
-            <li class="right-aligned"><a href="/cat/u/{{uid}}" id="user-banner" data-username="{{username}}"><i class="fas fa-user"></i></a><a href="{% url 'connection' %}" id="friends-banner"><i class="fas fa-people-arrows"></i></a><a href="#" id="notification-banner"><i class="fas fa-bell"></i></a></li>
+            <li class="right-aligned"><a href="/cat/u/{{uid}}" id="user-banner" data-username="{{username}}" data-uid="{{uid}}"><i class="fas fa-user"></i></a><a href="{% url 'connection' %}" id="friends-banner"><i class="fas fa-people-arrows"></i></a><a href="#" id="notification-banner"><i class="fas fa-bell"></i></a></li>
             
         </ul>
     </nav>
@@ -49,9 +49,10 @@
     <div class="modal modal-dismissable modal-no-dim" id="notification-modal">
 
         <div class="modal-body modal-top-right">
-            <div class="modal-header modal-header-light">
-                Notifications <span class="close-modal-button" data-close="#notification-modal"><i class="fas fa-times"></i></span>
-            </div>
+
+            <div class="modal-arrow"></div>
+
+
     
             <div class="modal-content">
                 <div class="modal-tab-bar">
@@ -75,10 +76,6 @@
                     </div> -->
                 </div>
             </div>
-    
-            <!-- <div class="modal-controls">
-                <button class="btn btn-submit" id="follow-button">Follow <i class="fas fa-user-plus"></i></button>
-            </div> -->
         </div>
     </div>
 

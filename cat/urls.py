@@ -30,6 +30,8 @@ urlpatterns = [
     path('getAllNotification', views.getAllNotification, name='getAllNotification'),
     path('getNewNotification', views.getNewNotification, name='getNewNotification'),
     path('checkNewNotification', views.checkNewNotification, name='checkNewNotification'),
+    path('sendLoveToCat', views.sendLoveToCat, name='sendLoveToCat'),
+    path('checkLove', views.checkLove, name='checkLove'),
 ]
 
 

@@ -42,6 +42,9 @@ def CollectNotification(NotificationQueryDict):
         idLookUp[str(n.type)+"-"+str(n.reference_id)] = n.id
 
     notificationList['type_0'] = SubNotificationSerializer(Subscription.objects.filter(id__in = notificationIdList[0]), many=True).data
+
+    notificationList['type_1'] = CatLoveNotificationSerializer(Cat_Love.objects.filter(id__in = notificationIdList[1]), many=True).data
+
     notificationList['idLookUp'] = idLookUp
 
     return notificationList

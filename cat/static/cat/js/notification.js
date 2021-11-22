@@ -9,20 +9,9 @@ function getAllNotification(){
         method: "GET",
         success: function(result){  
 
-            $("#notification-content").html('')
-            
-            let notifications = result['type_0']
-            let idLookUp = result['idLookUp']
+            console.log(result)
 
-            for(let i=0; i<notifications.length;i++){
-                for(let j=0;j<5;j++){
-                    $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['followed_by']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" id="user-header-'+notifications[i]['followed_by']['id']+'"><div><strong>'+notifications[i]['followed_by']['username']+'</strong> started following you. <light></light></div></div>')
-                }
-            }
-
-            if($("#notification-content").html() == ''){
-                $("#notification-content").append('<div style="text-align:center;padding: 30px 10px; font-weight:bold;">Nothing new at this moment.</div>')
-            }
+            parseNotification(result)
         }
     })
 }
@@ -36,25 +25,34 @@ function getNewNotification(){
         method: "GET",
         success: function(result){  
 
-            $("#notification-content").html('')
-            
-            let notifications = result['type_0']
-            let idLookUp = result['idLookUp']
+            console.log(result)
 
-            for(let i=0; i<notifications.length;i++){
-
-                $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['followed_by']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" id="user-header-'+notifications[i]['followed_by']['id']+'"><div><strong>'+notifications[i]['followed_by']['username']+'</strong> started following you. <light></light></div></div>')
-
-                
-            }
-
-            if($("#notification-content").html() == ''){
-                $("#notification-content").append('<div style="text-align:center;padding: 50px 10px 30px 10px;">Nothing new at this moment.</div>')
-            }
+            parseNotification(result)
 
             checkNewNotification()
         }
     })
+}
+
+function parseNotification(result){
+    $("#notification-content").html('')
+            
+    let notifications = result['type_0']
+    let idLookUp = result['idLookUp']
+
+    for(let i=0; i<notifications.length;i++){
+
+        $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['followed_by']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" id="user-header-'+notifications[i]['followed_by']['id']+'"><div><strong>'+notifications[i]['followed_by']['username']+'</strong> started following you. <light></light></div></div>')
+    }
+
+    notifications = result['type_1']
+    for(let i=0; i<notifications.length;i++){
+        $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['love_sender']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" class="user-header-'+notifications[i]['love_sender']['id']+'"><div><strong>'+notifications[i]['love_sender']['username']+'</strong> Loved <strong>'+notifications[i]['target_cat']['catName']+'</strong>. <light></light></div></div>')
+    }
+
+    if($("#notification-content").html() == ''){
+        $("#notification-content").append('<div style="text-align:center;padding: 50px 10px 30px 10px;">Nothing new at this moment.</div>')
+    }
 }
 
 function checkNewNotification(){
@@ -89,6 +87,8 @@ $("#notification-banner").click(function(e){
     $("#new-nofitication-tab").addClass("modal-tab-selected")
     getNewNotification()
 })
+
+// $("#notification-banner").click()
 
 $("#new-nofitication-tab").click(function(){
     $(".modal-tab").removeClass("modal-tab-selected")

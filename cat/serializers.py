@@ -1,6 +1,12 @@
+from django.db.models import fields
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
+
+class CatIdSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Cat
+        fields = ['id', 'catName']
 
 # get username and id
 class IPLocationSerializer(serializers.ModelSerializer):
@@ -13,6 +19,23 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+
+class LoveCheckSerializer(serializers.ModelSerializer):
+
+    target_cat = CatIdSerializer(read_only = True)
+
+    class Meta:
+        model = Cat_Love
+        fields = ['target_cat']
+
+class CatLoveNotificationSerializer(serializers.ModelSerializer):
+
+    target_cat = CatIdSerializer(read_only = True)
+    love_sender = UserSerializer(read_only = True)
+
+    class Meta:
+        model = Cat_Love
+        fields = ['target_cat','love_sender', 'loved_at']
 
 # get username and id
 class UserIdSerializer(serializers.ModelSerializer):
@@ -61,3 +84,5 @@ class CatSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Cat
         fields = ['id','owner', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge']
+
+

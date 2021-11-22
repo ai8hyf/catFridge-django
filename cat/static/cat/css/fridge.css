@@ -161,8 +161,9 @@ canvas.cat-graph{
 
 .cat-preview{
     padding: 20px;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     overflow-y: hidden;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 2px 3px;
 }
 
 #cat-preview-canvas{
