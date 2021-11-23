@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.activity, name='activity'),
     path('fridge/', views.fridge, name='fridge'),
     path('fridge/add', views.addCat, name='add'),
     path('search/', views.search, name='search'),
@@ -20,6 +20,7 @@ urlpatterns = [
     path('updateUserFirstName', views.updateUserFirstName, name='updateUserFirstName'),
     path('updateUserLastName', views.updateUserLastName, name='updateUserLastName'),
     path('getUserDetail', views.getUserDetail, name='getUserDetail'),
+    path('getHeaderByIds', views.getHeaderByIds, name='getHeaderByIds'),
     path('getAllCatFromUser', views.getAllCatFromUser, name='getAllCatFromUser'),
     path('subscribe', views.subscribe, name='subscribe'),
     path('unsubscribe', views.unsubscribe, name='unsubscribe'),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('checkNewNotification', views.checkNewNotification, name='checkNewNotification'),
     path('sendLoveToCat', views.sendLoveToCat, name='sendLoveToCat'),
     path('checkLove', views.checkLove, name='checkLove'),
+    path('adpotNewCatFeeds', views.adpotNewCatFeeds, name='adpotNewCatFeeds')
 ]
 
 

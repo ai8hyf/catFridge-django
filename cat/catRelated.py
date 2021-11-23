@@ -8,6 +8,47 @@ from datetime import datetime, timedelta
 from .notifications import *
 
 @login_required(login_url='/cat/login')
+def getAllCatFromUser(request):
+    if request.is_ajax():
+        catOwner = User.objects.get(id = request.POST['userID'])
+        catQuerySet = Cat.objects.all().filter(owner = catOwner)
+        serializer = CatDetailSerializer(catQuerySet, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+@login_required(login_url='/cat/login')
+def addCat(request):
+    if request.method == "POST" and request.is_ajax():
+
+        newCat = Cat(
+            **request.POST.dict(), 
+            owner = User.objects.get(id = request.user.id)
+        )
+        newCat.save()
+        
+        return HttpResponse("Success")
+
+@login_required(login_url='/cat/login')
+def updateCatDesc(request):
+
+    if request.method == "POST" and request.is_ajax():
+
+        catID = request.POST['catID']
+        catDesc = request.POST['catDesc']
+
+        if Cat.objects.filter(id = catID).count() == 1:
+            targetCat = Cat.objects.get(id = catID)
+
+            if targetCat.owner == User.objects.get(id = request.user.id) and len(catDesc.strip()) < 200:
+                targetCat.catDesc = catDesc
+                targetCat.save(update_fields=['catDesc'])
+
+                return HttpResponse("1") # success
+        else:
+            return HttpResponse("2") # cat does not exist
+    
+    return HttpResponse("3") # other issues
+
+@login_required(login_url='/cat/login')
 def sendLoveToCat(request):
 
     if request.is_ajax() and request.method == "POST":

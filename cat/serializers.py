@@ -8,7 +8,6 @@ class CatIdSerializer(serializers.ModelSerializer):
         model = Cat
         fields = ['id', 'catName']
 
-# get username and id
 class IPLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = IP_Location
@@ -19,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+
 
 class LoveCheckSerializer(serializers.ModelSerializer):
 
@@ -42,6 +42,13 @@ class UserIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id']
+
+
+class UserHeaderSerializer(serializers.ModelSerializer):
+    user = UserIdSerializer(read_only = True)
+    class Meta:
+        model = User_Extra
+        fields = ['user', 'header']
 
 class FollowingIdSerializer(serializers.ModelSerializer):
 
@@ -83,6 +90,6 @@ class CatSummarySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Cat
-        fields = ['id','owner', 'catName', 'catDesc', 'catHealth', 'catHappiness', 'catWeight', 'catAge']
+        fields = ['id','owner', 'catName', 'catDesc', 'adoptDate']
 
 

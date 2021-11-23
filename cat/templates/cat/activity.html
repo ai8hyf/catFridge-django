@@ -13,65 +13,46 @@
 
 {% block container %}
 <div class="container">
-    <h1 class="page-title">Feeds</h1>
+    <div class="dashboard">
+        <div class="user-found">
+            <img src="{% static 'cat/img/temp-header.png' %}" alt="header image" class="found-user-header" data-header-url="{{userExtra.header}}">
+            
+            <div class="found-user-right">
+                <div class="found-user-name">
+                    <span>{{username}}</span>  
+                </div>
+            </div>
+        </div>
 
-    <div class="filter">
-        <button data-duration="week" id="weekRecord">Past Week</button>
-        <button data-duration="month">Past Month</button>
-        <button data-duration="year">Past Year</button>
-        <button data-duration="all">All</button>
+        <div class="dashboard-panel" id="cat-count-render" data-cat-count={{catOwn}}>
+            STOCK:
+        </div>
+
+        <div class="dashboard-panel" id="love-count-render">
+            LOVE RECEIVED:<br>
+            <i class="fas fa-heart"></i> <i class="fas fa-times fa-xs"></i> <span>{{loveCount}}</span>
+        </div>
+
+        <div class="dashboard-button" onclick="goToUser({{uid}})"><i class="fas fa-address-card"></i> Profile</div>
+
+        <div class="dashboard-button"><a href="{% url 'search' %}"><i class="fas fa-search"></i> Discover</a></div>
+
+        <div class="dashboard-button"><a href="{% url 'fridge' %}"><i class="fas fa-box"></i> My Fridge</a></div>
+
+        <div class="dashboard-button"><a href="{% url 'connection' %}"><i class="fas fa-people-arrows"></i> Connection</a></div>
     </div>
 
-    <div class="history-list">
-        <table>
-            <thead>
-                <tr>
-                    <th>When</th>
-                    <th>What</th>
-                    <th>Who</th>
-                </tr>
-            </thead>
-            <tbody id="activities">
-                <tr>
-                    <td>2021/05/25</td>
-                    <td>Cathy cooked your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-                <tr>
-                    <td>2021/05/24</td>
-                    <td>Cathy fed your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-                <tr>
-                    <td>2021/05/23</td>
-                    <td>Cathy played with your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
+    <div class="feeds">
+        <div class="one-feed">
+            Admin Adopted a new cat named ZZZ
+        </div>
 
-                <tr>
-                    <td>2021/05/22</td>
-                    <td>Cathy trained your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-                <tr>
-                    <td>2021/05/21</td>
-                    <td>Cathy took your cat Lucy for a date.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-                <tr>
-                    <td>2021/05/20</td>
-                    <td>Cathy dressed up your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-                <tr>
-                    <td>2021/05/19</td>
-                    <td>Cathy borrowed your cat Lucy.</td>
-                    <td>Cathy, Lucy</td>
-                </tr>
-
-            </tbody>
-        </table>
+        <div class="one-feed">
+            Admin Adopted a new cat named ZZZ
+        </div>
     </div>
+    
+
 </div>
 {% endblock container %}
 

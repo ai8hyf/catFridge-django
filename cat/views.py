@@ -21,6 +21,7 @@ from datetime import datetime
 from .notifications import *
 from .subscriptions import *
 from .catRelated import *
+from .feeds import *
 
 
 def getLocationForIP(incoming_ip):
@@ -140,13 +141,6 @@ def fridge(request):
 
 
 @login_required(login_url='/cat/login')
-def getAllCatFromUser(request):
-    if request.is_ajax():
-        catOwner = User.objects.get(id = request.POST['userID'])
-        catQuerySet = Cat.objects.all().filter(owner = catOwner)
-        serializer = CatDetailSerializer(catQuerySet, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
 def getUser(request, uid):
     if User.objects.filter(id = uid).exists() == False:
         return HttpResponse("User does not exist!")
@@ -158,6 +152,34 @@ def getUser(request, uid):
     context = {'user': targetUser, 'userExtra': ExtraUserInfo, "followerCount":followerCount, "followingCount": followingCount, 'uid':request.user.id, "birthdate": str(ExtraUserInfo.birthdate), "is_admin": request.user.is_superuser}
 
     return render(request, 'cat/profile.html', context)
+
+
+@login_required(login_url='/cat/login')
+def getHeaderByIds(request):
+
+    # both front-end and back-end caching will be needed!
+    # Otherwise bad things will happen
+
+    if request.is_ajax():
+        
+        idList = request.POST.getlist('userIds[]')
+
+        print(request.POST)
+        print(idList)
+
+        for i in range(0, len(idList)):
+            idList[i] = int(idList[i])
+
+        print(idList)
+
+        allUsers = User.objects.filter(id__in = idList)
+
+        
+
+        ExtraInfo = User_Extra.objects.filter(user__in = allUsers)
+
+        res = UserHeaderSerializer(ExtraInfo, many=True)
+        return JsonResponse(res.data, safe=False)
 
 
 @login_required(login_url='/cat/login')
@@ -175,18 +197,7 @@ def getUserDetail(request):
 
         return JsonResponse(RES, safe=False)
 
-@login_required(login_url='/cat/login')
-def addCat(request):
-    if request.method == "POST" and request.is_ajax():
 
-        newCat = Cat(
-            **request.POST.dict(), 
-            owner = User.objects.get(id = request.user.id)
-        )
-
-        newCat.save()
-
-        return HttpResponse("Success")
    
 
 @login_required(login_url='/cat/login')
@@ -239,26 +250,7 @@ def queryKeywordFromDB(keyword, type):
     return [res, ifExist, type == 'cat']
 
 
-@login_required(login_url='/cat/login')
-def updateCatDesc(request):
 
-    if request.method == "POST" and request.is_ajax():
-
-        catID = request.POST['catID']
-        catDesc = request.POST['catDesc']
-
-        if Cat.objects.filter(id = catID).count() == 1:
-            targetCat = Cat.objects.get(id = catID)
-
-            if targetCat.owner == User.objects.get(id = request.user.id) and len(catDesc.strip()) < 200:
-                targetCat.catDesc = catDesc
-                targetCat.save(update_fields=['catDesc'])
-
-                return HttpResponse("1") # success
-        else:
-            return HttpResponse("2") # cat does not exist
-    
-    return HttpResponse("3") # other issues
 
 @login_required(login_url='/cat/login')
 def updateUserAbout(request):
@@ -318,13 +310,16 @@ def updateUserBirthday(request):
 
 @login_required(login_url='/cat/login')
 def activity(request):
-    context = {'username': request.user.username, 'email': request.user.email, 'uid':request.user.id}
+
     if request.method == 'GET':
+
+        ExtraUserInfo = User_Extra.objects.get(user = request.user)
+        catOwn = Cat.objects.filter(owner = request.user).count()
+        loveCount = Cat_Love.objects.filter(target_cat__in = Cat.objects.filter(owner = request.user)).count()
+
+        context = {'username': request.user.username, 'userExtra': ExtraUserInfo, 'uid':request.user.id, 'catOwn': catOwn, 'loveCount': loveCount}
+
         return render(request, 'cat/activity.html', context)
-    
-    if request.method == 'POST':
-        if request.is_ajax():
-            return JsonResponse(recordHistory)
 
 
 def login(request):

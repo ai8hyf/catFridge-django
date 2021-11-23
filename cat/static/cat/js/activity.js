@@ -1,35 +1,53 @@
-$(".menu-activity").addClass("active")
+$(document).ready(function(){
+    $(".menu-activity").addClass("active")
 
-$(".filter>button").click(function(){
-    $(".filter>button").removeClass("selected")
-    $(this).addClass("selected")
+    let headerURL = $(".found-user-header").data("header-url")
+    if(headerURL != ""){
+        $(".found-user-header").attr("src", "/media/"+headerURL)
+        $("#user-info-header").attr("src", "/media/"+headerURL)
+    }
 
+    let catFleet = ""
+    for(let i=0;i<$("#cat-count-render").data("cat-count");i++){
+        catFleet += '<i class="fas fa-cat"></i>'
+    }
+    $("#cat-count-render").html("OWN<br>"+catFleet)
+
+    getAdoptCatFeeds()
+})
+
+
+
+function getAdoptCatFeeds(){
+    // let target_uid = $(".found-user-name").data("uid")
+    // let uid = $("#user-banner").data("uid")
+    
     $.ajax({
         headers: {
             'X-CSRFToken': csrftoken
         },
-        url: ".",
-        data: {"DURATION": $(this).data["duration"]},
-        method: "POST",
+        url: "/cat/adpotNewCatFeeds",
+        method: "GET",
         success: function(res){
 
-            console.log(res)
+            const userIds = new Set()
 
-            $("#activities").html('<tr><td><i class="fas fa-spinner fa-spin"></i></td></tr>')
+            $(".feeds").html('')
+            for(let i=0;i<res.length;i++){
+                
+                userIds.add(parseInt(res[i]['owner']['id']))
+                
+                let feedTime = res[i]['adoptDate']
 
-            // for demonstration only
-            setTimeout(function(){
-                $("#activities").html('')
-                for(let key in res){
-                    let activityDate = res[key].date
-                    let activityContent = res[key].content
-                    // let activityCat = res.cat
-                    let activityInvolved = res[key].involved
-                    $("#activities").append("<tr><td>"+activityDate+"</td><td>"+activityContent+"</td><td>"+activityInvolved+"</td></tr>")
-                }
-            }, 1000)
+                feedTime = '<i class="far fa-clock fa-sm"></i> ' + feedTime.substr(0, 10) + " " + feedTime.substr(11, 5)
+
+                $(".feeds").append('<div class="one-feed"><img src="/static/cat/img/temp-header.png" alt="header photo" class="feed-user-header user-header-'+res[i]['owner']['id']+'" onclick=goToUser('+res[i]['owner']['id']+')><span class="feed-content"><strong>'+res[i]["owner"]["username"]+'</strong> Adopted a new cat named <strong>'+res[i]["catName"]+' <i class="fas fa-cat"></i></strong></span><span class="feed-time">'+feedTime+'</span></div>')
+            }
+
+            getHeaderByIds(Array.from(userIds))
         }
     })
-})
+}
 
-$("#weekRecord").click()
+
+

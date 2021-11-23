@@ -12,6 +12,29 @@ $(".modal-dismissable>div").click(function(e){
     e.stopPropagation()
 })
 
+function getHeaderByIds(userIds){
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/getHeaderByIds",
+        method: "POST",
+        data: {"userIds[]": userIds},
+        success: function(res){
+
+            for(let i=0; i<res.length;i++){
+                className = ".user-header-" + res[i]['user']['id']
+                headerURL = res[i]['header']
+
+                if(headerURL!=""){
+                    $(className).attr("src", headerURL)
+                }
+
+            }
+        }
+    })
+}
+
 function goToUser(uid){
     window.location = "/cat/u/"+uid;
     // $(".cat-collection").html('')

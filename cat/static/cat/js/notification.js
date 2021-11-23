@@ -39,20 +39,28 @@ function parseNotification(result){
             
     let notifications = result['type_0']
     let idLookUp = result['idLookUp']
+    const userIds = new Set()
 
     for(let i=0; i<notifications.length;i++){
 
-        $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['followed_by']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" id="user-header-'+notifications[i]['followed_by']['id']+'"><div><strong>'+notifications[i]['followed_by']['username']+'</strong> started following you. <light></light></div></div>')
+        userIds.add(notifications[i]['followed_by']['id'])
+
+        $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['followed_by']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" class="user-header-'+notifications[i]['followed_by']['id']+'"><div><strong>'+notifications[i]['followed_by']['username']+'</strong> started following you. <light></light></div></div>')
     }
 
     notifications = result['type_1']
     for(let i=0; i<notifications.length;i++){
+
+        userIds.add(notifications[i]['love_sender']['id'])
+
         $("#notification-content").append('<div class="one-notification" onclick="goToUser('+notifications[i]['love_sender']['id']+')"><img src="/static/cat/img/temp-header.png" alt="header photo" class="user-header-'+notifications[i]['love_sender']['id']+'"><div><strong>'+notifications[i]['love_sender']['username']+'</strong> Loved <strong>'+notifications[i]['target_cat']['catName']+'</strong>. <light></light></div></div>')
     }
 
     if($("#notification-content").html() == ''){
         $("#notification-content").append('<div style="text-align:center;padding: 50px 10px 30px 10px;">Nothing new at this moment.</div>')
     }
+
+    getHeaderByIds(Array.from(userIds))
 }
 
 function checkNewNotification(){

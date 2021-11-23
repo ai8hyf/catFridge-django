@@ -9,11 +9,12 @@ html, body, div, h1, h2, h3, h4, ul, ol, li, a, p, span{
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: transparent; 
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: rgb(189, 189, 189); 
+    border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
