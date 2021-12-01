@@ -332,6 +332,11 @@ def activity(request):
 
     if request.method == 'GET':
 
+        ExtraUserInfo, created = User_Extra.objects.get_or_create(
+            user = request.user,
+            defaults={"user": request.user, "about": "Nothing right now."},
+        )
+
         ExtraUserInfo = User_Extra.objects.get(user = request.user)
         catOwn = Cat.objects.filter(owner = request.user).count()
         loveCount = Cat_Love.objects.filter(target_cat__in = Cat.objects.filter(owner = request.user)).count()
