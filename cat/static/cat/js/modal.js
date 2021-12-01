@@ -22,11 +22,13 @@ function getHeaderByIds(userIds){
         data: {"userIds[]": userIds},
         success: function(res){
 
+            console.log(res)
+
             for(let i=0; i<res.length;i++){
                 className = ".user-header-" + res[i]['user']['id']
                 headerURL = res[i]['header']
 
-                if(headerURL!=""){
+                if(headerURL!=null){
                     $(className).attr("src", headerURL)
                 }
 

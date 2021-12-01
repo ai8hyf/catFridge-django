@@ -43,9 +43,15 @@ function searchKeyword(keyword, searchOption){
                         for(let i=0; i<res['content'].length; i++){
                             let oneUser = res['content'][i]
 
+                            let userHeader = oneUser['header']
+
+                            if(userHeader == null){
+                                userHeader = "/static/cat/img/temp-header.png"
+                            }
+
                             foundUsers[oneUser['user']['id']] = res['content'][i]
 
-                            $("#search-result").append("<div class='user-found' onclick='goToUser("+oneUser['user']['id']+")'><img class='found-user-header' src="+oneUser['header']+" /><div class='found-user-name'><i class='fas fa-user'></i> "+oneUser['user']['username']+"</div><div class='found-user-about'>"+oneUser['about']+"</div></div>")
+                            $("#search-result").append("<div class='user-found' onclick='goToUser("+oneUser['user']['id']+")'><img class='found-user-header' src="+userHeader+" /><div class='found-user-name'><i class='fas fa-user'></i> "+oneUser['user']['username']+"</div><div class='found-user-about'>"+oneUser['about']+"</div></div>")
                         }
                         
                     }

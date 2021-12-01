@@ -63,7 +63,13 @@ function getFollowing(){
 
                 foundUsers[res[i]['user']['id']] = res[i]
 
-                $(".following-panel").append('<div class="user-found" data-uid='+res[i]['user']['id']+'><img src="'+res[i]['header']+'" alt="header image" class="found-user-header"><div class="found-user-right"><div class="found-user-name"><span>'+res[i]['user']['username']+'</span><span id="follow-button-'+res[i]['user']['id']+'" class="right-aligned-button sm-unfollow-button" onclick=stopFollow('+res[i]['user']['id']+')>Following</span></div><div class="found-user-about">'+res[i]['about']+'</div></div></div>')
+                let userHeader = res[i]['header']
+
+                if(userHeader == null){
+                    userHeader = "/static/cat/img/temp-header.png"
+                }
+
+                $(".following-panel").append('<div class="user-found" data-uid='+res[i]['user']['id']+'><img src="'+userHeader+'" alt="header image" class="found-user-header"><div class="found-user-right"><div class="found-user-name"><span>'+res[i]['user']['username']+'</span><span id="follow-button-'+res[i]['user']['id']+'" class="right-aligned-button sm-unfollow-button" onclick=stopFollow('+res[i]['user']['id']+')>Following</span></div><div class="found-user-about">'+res[i]['about']+'</div></div></div>')
             }
             
         }
@@ -93,8 +99,14 @@ function getFollower(){
 
                 foundUsers[res[i]['user']['id']] = res[i]
 
+                let userHeader = res[i]['header']
+
+                if(userHeader == null){
+                    userHeader = "/static/cat/img/temp-header.png"
+                }
+
                 checkSubscriptionIds.push(res[i]['user']['id'])
-                $(".follower-panel").append('<div class="user-found" data-uid='+res[i]['user']['id']+'><img src="'+res[i]['header']+'" alt="header image" class="found-user-header"><div class="found-user-right"><div class="found-user-name"><span>'+res[i]['user']['username']+'</span><span id="follow-button-'+res[i]['user']['id']+'" class="right-aligned-button sm-follow-button" onclick=startFollow('+res[i]['user']['id']+')>Follow</span></div><div class="found-user-about">'+res[i]['about']+'</div></div></div>')
+                $(".follower-panel").append('<div class="user-found" data-uid='+res[i]['user']['id']+'><img src="'+userHeader+'" alt="header image" class="found-user-header"><div class="found-user-right"><div class="found-user-name"><span>'+res[i]['user']['username']+'</span><span id="follow-button-'+res[i]['user']['id']+'" class="right-aligned-button sm-follow-button" onclick=startFollow('+res[i]['user']['id']+')>Follow</span></div><div class="found-user-about">'+res[i]['about']+'</div></div></div>')
             }
             checkRelation(checkSubscriptionIds)
         }
