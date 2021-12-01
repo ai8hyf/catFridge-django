@@ -334,7 +334,8 @@ def activity(request):
 
         ExtraUserInfo, created = User_Extra.objects.get_or_create(
             user = request.user,
-            defaults={"user": request.user, "about": "Nothing right now."},
+            defaults={"user": request.user, "about": "Nothing to tell...",
+            "birthdate": "1970-01-01"},
         )
 
         ExtraUserInfo = User_Extra.objects.get(user = request.user)
@@ -383,6 +384,8 @@ def register(request):
 
         # create user
         user = User.objects.create_user(username, email, password)
+        user.first_name = "John"
+        user.last_name = "Doe"
         user.save()
 
         extraUserInfo = User_Extra(
