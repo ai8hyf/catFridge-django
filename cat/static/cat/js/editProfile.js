@@ -145,6 +145,58 @@ function ajaxOnBlur(postURL, postInfo, selector){
     })
 }
 
+function updatePass(){
+    let pass1 = $("#user-info-pass1").val()
+    let pass2 = $("#user-info-pass2").val()
+
+    if(pass1 != pass2){
+        alert("Passwords do not match. Please try again.")
+        $("#user-info-pass1").css({"border-color": "red", "color": "red"})
+        $("#user-info-pass2").css({"border-color": "red", "color": "red"})
+        return
+    }
+
+    if(pass1.length < 8){
+        alert("Password should contain at least 8 digits.")
+        $("#user-info-pass1").css({"border-color": "red", "color": "red"})
+        $("#user-info-pass2").css({"border-color": "red", "color": "red"})
+        return
+    }
+
+    $.ajax({
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        url: "/cat/updatePassword",
+        method: "POST",
+        data: {"newPass": pass1},
+        success: function(res){
+            console.log(res)
+
+            if(res == "1"){
+                $("#user-info-pass1").css({"border-color": "green", "color": "green"})
+                $("#user-info-pass1").val("")
+
+                $("#user-info-pass2").css({"border-color": "green", "color": "green"})
+                $("#user-info-pass2").val("")
+
+                alert("Password has been reset successfully!")
+            }else{
+                $("#user-info-pass1").css({"border-color": "red", "color": "red"})
+                $("#user-info-pass2").css({"border-color": "red", "color": "red"})
+                alert("Invalid new password! Please try again.")
+            }
+
+            setInterval(function(){
+                $("#user-info-pass1").css({"border-color": "black", "color": "black"})
+                $("#user-info-pass2").css({"border-color": "black", "color": "black"})
+            }, 1500)
+
+        }
+    })
+}
+
+
 $("#clear-header-editor").click(function(){
     croppieContainer.hide()
     $("#choose-image-button").show()

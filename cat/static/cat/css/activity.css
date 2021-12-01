@@ -42,6 +42,7 @@
     padding-top: 20px;
     padding-left: 40px;
     position: relative;
+    font-family: Arial, sans-serif;
 }
 
 .feed-user-header{
@@ -116,8 +117,9 @@
     font-weight: bold;
     width: 100%;
     text-align: center;
-    color: black;
-    border: 3px solid black;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
+    background-blend-mode: multiply,multiply;
+    /* https://cssgradient.io/ */
     box-sizing: border-box;
     text-overflow: ellipsis;
 }
@@ -125,7 +127,7 @@
 .dashboard-panel{
     background-color: white;
     color: black;
-    border: 3px solid black;
+    /* border: 3px solid black; */
     margin-bottom: 20px;
     padding: 15px;
     font-size: 24px;
@@ -134,8 +136,10 @@
     line-height: 30px;
 }
 #cat-count-render{
-    color: green;
-    border-color: green;
+    color: white;
+    background-color: #08AEEA;
+    background-image: linear-gradient(90deg, #08AEEA 0%, #2AF598 100%);
+
 }
 
 #cat-count-render i{
@@ -144,8 +148,9 @@
 }
 
 #love-count-render{
-    color: red;
-    border-color: red;
+    background-color: #FF9A8B;
+    background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+    color: white;
 }
 
 #love-count-render i{
@@ -171,7 +176,7 @@
     color: gray;
     /* border-bottom: 1px solid rgb(206, 206, 206); */
     transition: all .1s;
-
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 .dashboard-button i{

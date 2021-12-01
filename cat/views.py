@@ -308,6 +308,25 @@ def updateUserBirthday(request):
     
     return HttpResponse("0")
 
+
+@login_required(login_url='/cat/login')
+def updatePassword(request):
+    if request.is_ajax() and request.method == "POST":
+        newPass = request.POST['newPass']
+
+        if newPass is None or len(newPass) < 8:
+            return HttpResponse("0")
+
+        targetUser = User.objects.get(id=request.user.id)
+        try:
+            targetUser.set_password(newPass)
+            targetUser.save()
+            return HttpResponse("1")
+        except:
+            return HttpResponse("0")
+    
+    return HttpResponse("0")
+
 @login_required(login_url='/cat/login')
 def activity(request):
 
